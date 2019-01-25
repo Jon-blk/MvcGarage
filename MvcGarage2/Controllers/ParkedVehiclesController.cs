@@ -46,13 +46,13 @@ namespace MvcGarage2.Controllers
             return View(parkedVehicleCost);
         }
 
-        private decimal CalculateParkingCost(DateTime startTime)
+        private double CalculateParkingCost(DateTime startTime)
         {
             /* Currently implemented as cost per minute, should maybe charge for each start hour/half hour etc */
-            const decimal pricePerHour = 10M;
-            var pricePerMinute = pricePerHour / 60M;
+            const double pricePerHour = 10.0;
+            var pricePerMinute = pricePerHour / 60.0;
             TimeSpan spentTime = DateTime.Now - startTime;
-            return (spentTime.Minutes * pricePerMinute);
+            return (spentTime.TotalMinutes * pricePerMinute);
         }
 
         // GET: ParkedVehicles/Create
