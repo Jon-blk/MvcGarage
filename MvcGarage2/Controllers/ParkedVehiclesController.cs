@@ -166,8 +166,10 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
-
-            return View(parkedVehicle);
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            return View(parkedVehicleCost);
         }
 
         // POST: ParkedVehicles/Delete/5
@@ -175,10 +177,17 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+
             var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
             _context.ParkedVehicle.Remove(parkedVehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+
+            return View("Receipt", parkedVehicleCost);
         }
 
         private bool ParkedVehicleExists(int id)
