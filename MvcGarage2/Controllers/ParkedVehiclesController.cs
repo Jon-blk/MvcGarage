@@ -9,8 +9,6 @@ using MvcGarage2.Models;
 
 namespace MvcGarage2.Controllers
 {
-    enum Colors { Red = 1, Green = 2, Blue = 4, Yellow = 8 };
-
     public class ParkedVehiclesController : Controller
     {
         private readonly MvcGarage2Context _context;
@@ -59,7 +57,7 @@ namespace MvcGarage2.Controllers
         public IActionResult Create()
         {
 
-            var parkingView = new ParkedVehicleViewModel();
+            var vehicleParking = new ParkedVehicle();
             //var tempArray = Enum.GetValues(typeof(VehicleType));//enum => list
             //var tempList = new List<string>();
             //foreach (string item in tempArray)
@@ -78,10 +76,7 @@ namespace MvcGarage2.Controllers
 
             //parkingView.Colors = new SelectList(tempList2);
 
-            parkingView.Colors = new SelectList(new string[] { "Blue", "Black", "Green" });
-            parkingView.Types = new SelectList(new string[] { "Car", "Motorcycle", "Bus" });
-
-            return View(parkingView);
+            return View(vehicleParking);
         }
 
         // POST: ParkedVehicles/Create
@@ -177,9 +172,9 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ParkedVehicle parkedVehicle;
 
-
-            var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
+            parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
             _context.ParkedVehicle.Remove(parkedVehicle);
             await _context.SaveChangesAsync();
             //return RedirectToAction(nameof(Index));
@@ -187,7 +182,7 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
 
-            return View("Receipt", parkedVehicleCost);
+            return View("Receipt", parkedVehicleCost); //doesn't currently work while reloading
         }
 
         private bool ParkedVehicleExists(int id)
