@@ -73,7 +73,7 @@ namespace MvcGarage2.Controllers
                 parkedVehicle.StartTime = DateTime.Now;
                 if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
                 {
-                    return View(parkedVehicle);//Registration number already exists, don't add, todo: feedback
+                    return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
                 }
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
@@ -113,9 +113,10 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
-                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber))
+                // assumption: You can edit the registratration number (but not to something that already exists)
+                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper() && v.Id != parkedVehicle.Id))
                 {
-                    return View(parkedVehicle);
+                    return View(parkedVehicle); //TODO: error, edited reg-number to existing! 
                 }
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
