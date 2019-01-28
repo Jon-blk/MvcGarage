@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<MvcGarage2.Models.ParkedVehicle>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Start";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
 <table class="table">
     <thead>
@@ -21,15 +21,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.VehicleModel)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.NumberOfWheels)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.StartTime)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.VehicleType)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
@@ -48,22 +48,27 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VehicleModel)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.NumberOfWheels)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-danger">Avsluta parkering</button></a>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-info">Detaljer</button></a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-secondary">Redigera</button></a>
+                </div>
             </td>
         </tr>
 }
