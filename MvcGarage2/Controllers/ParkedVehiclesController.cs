@@ -20,9 +20,48 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: ParkedVehicles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.ParkedVehicle.ToListAsync());
+
+            ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["BrandSortParm"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
+            ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
+            var vehicles = from s in _context.ParkedVehicle
+                           select s;
+            switch (sortOrder)
+            {
+
+                case "Brand":
+                    vehicles = vehicles.OrderBy(s => s.Brand);
+                    break;
+                case "brand_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.Brand);
+                    break;
+                case "VehicleModel":
+                    vehicles = vehicles.OrderBy(s => s.Brand);
+                    break;
+                case "vehiclesModel_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.Brand);
+                    break;
+                case "reg_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.RegistrationNumber);
+                    break;
+                case "Reg":
+                    vehicles = vehicles.OrderBy(s => s.RegistrationNumber);
+                    break;
+                case "Date":
+                    vehicles = vehicles.OrderBy(s => s.StartTime);
+                    break;
+                case "date_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.StartTime);
+                    break;
+                default:
+                    vehicles = vehicles.OrderBy(s => s.RegistrationNumber);
+                    break;
+            }
+          
+            return View(await vehicles.AsNoTracking().ToListAsync());
         }
 
         // GET: ParkedVehicles/Details/5
@@ -44,6 +83,13 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
             return View(parkedVehicleCost);
         }
+  
+
+
+
+
+
+
 
         private double CalculateParkingCost(DateTime startTime)
         {
