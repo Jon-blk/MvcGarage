@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
@@ -68,13 +69,17 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RegistrationNumber,Brand,VehicleModel,NumberOfWheels,VehicleType,Color")] ParkedVehicle parkedVehicle)
         {
+            if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
+            {
+                //return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
+                ModelState.AddModelError("RegistrationNumber", "Detta fordon är redan parkerat!");
+
+                return View(parkedVehicle);
+            }
+           
             if (ModelState.IsValid)
             {
                 parkedVehicle.StartTime = DateTime.Now;
-                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
-                {
-                    return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
-                }
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
@@ -111,13 +116,17 @@ namespace MvcGarage2.Controllers
                 return NotFound();
             }
 
+            // assumption: You can edit the registratration number (but not to something that already exists)
+            if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper() && v.Id != parkedVehicle.Id))
+            {
+                ModelState.AddModelError("RegistrationNumber", "Detta fordon finns redan på en annan plats!");
+                return View(parkedVehicle); //TODO: error, edited reg-number to existing! 
+            }
+
             if (ModelState.IsValid)
             {
-                // assumption: You can edit the registratration number (but not to something that already exists)
-                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper() && v.Id != parkedVehicle.Id))
-                {
-                    return View(parkedVehicle); //TODO: error, edited reg-number to existing! 
-                }
+
+
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
