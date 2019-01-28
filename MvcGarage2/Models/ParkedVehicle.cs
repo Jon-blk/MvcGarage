@@ -26,8 +26,8 @@ namespace MvcGarage2.Models
         ErrorMessage = "Fordon måste ha mellan {1} och {2} hjul")]
         public int NumberOfWheels { get; set; }
 
-        [DataType(DataType.Time)]
-        [Display(Name = "Parkering inledd")]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 
         [Display(Name = "Fordonstyp")]

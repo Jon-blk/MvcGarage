@@ -58,24 +58,6 @@ namespace MvcGarage2.Controllers
         {
 
             var vehicleParking = new ParkedVehicle();
-            //var tempArray = Enum.GetValues(typeof(VehicleType));//enum => list
-            //var tempList = new List<string>();
-            //foreach (string item in tempArray)
-            //{
-            //    tempList.Add(item as string);
-            //}
-            //parkingView.Types = new SelectList(tempList);
-
-
-            //var tempArray2 = Enum.GetValues(typeof(Colors));//enum => list
-            //var tempList2 = new List<string>();
-            //foreach (string colorName in Enum.GetValues(typeof(Colors)))
-            //{
-            //    tempList2.Add(colorName);
-            //}
-
-            //parkingView.Colors = new SelectList(tempList2);
-
             return View(vehicleParking);
         }
 
@@ -89,6 +71,11 @@ namespace MvcGarage2.Controllers
             if (ModelState.IsValid)
             {
                 parkedVehicle.StartTime = DateTime.Now;
+                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
+                {
+                    return View(parkedVehicle);//Registration number already exists, don't add, todo: feedback
+                }
+                parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -126,6 +113,11 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
+                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber))
+                {
+                    return View(parkedVehicle);
+                }
+                parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
                     _context.Update(parkedVehicle);
