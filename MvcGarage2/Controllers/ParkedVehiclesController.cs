@@ -9,6 +9,8 @@ using MvcGarage2.Models;
 
 namespace MvcGarage2.Controllers
 {
+    enum Colors { Red = 1, Green = 2, Blue = 4, Yellow = 8 };
+
     public class ParkedVehiclesController : Controller
     {
         private readonly MvcGarage2Context _context;
@@ -38,14 +40,48 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            return View(parkedVehicleCost);
+        }
 
-            return View(parkedVehicle);
+        private double CalculateParkingCost(DateTime startTime)
+        {
+            /* Currently implemented as cost per minute, should maybe charge for each start hour/half hour etc */
+            const double pricePerHour = 10.0;
+            var pricePerMinute = pricePerHour / 60.0;
+            TimeSpan spentTime = DateTime.Now - startTime;
+            return (spentTime.TotalMinutes * pricePerMinute);
         }
 
         // GET: ParkedVehicles/Create
         public IActionResult Create()
         {
-            return View();
+
+            var parkingView = new ParkedVehicleViewModel();
+            //var tempArray = Enum.GetValues(typeof(VehicleType));//enum => list
+            //var tempList = new List<string>();
+            //foreach (string item in tempArray)
+            //{
+            //    tempList.Add(item as string);
+            //}
+            //parkingView.Types = new SelectList(tempList);
+
+
+            //var tempArray2 = Enum.GetValues(typeof(Colors));//enum => list
+            //var tempList2 = new List<string>();
+            //foreach (string colorName in Enum.GetValues(typeof(Colors)))
+            //{
+            //    tempList2.Add(colorName);
+            //}
+
+            //parkingView.Colors = new SelectList(tempList2);
+
+            parkingView.Colors = new SelectList(new string[] { "Blue", "Black", "Green" });
+            parkingView.Types = new SelectList(new string[] { "Car", "Motorcycle", "Bus" });
+
+            return View(parkingView);
         }
 
         // POST: ParkedVehicles/Create
@@ -53,10 +89,11 @@ namespace MvcGarage2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegistrationNumber,Brand,VehicleModel,NumberOfWheels,StartTime,VehicleType,Color")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> Create([Bind("RegistrationNumber,Brand,VehicleModel,NumberOfWheels,VehicleType,Color")] ParkedVehicle parkedVehicle)
         {
             if (ModelState.IsValid)
             {
+                parkedVehicle.StartTime = DateTime.Now;
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -129,8 +166,10 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
-
-            return View(parkedVehicle);
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            return View(parkedVehicleCost);
         }
 
         // POST: ParkedVehicles/Delete/5
@@ -138,10 +177,17 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+
             var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
             _context.ParkedVehicle.Remove(parkedVehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+
+            return View("Receipt", parkedVehicleCost);
         }
 
         private bool ParkedVehicleExists(int id)
