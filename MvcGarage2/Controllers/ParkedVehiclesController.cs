@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -193,6 +194,26 @@ namespace MvcGarage2.Controllers
         private bool ParkedVehicleExists(int id)
         {
             return _context.ParkedVehicle.Any(e => e.Id == id);
+        }
+
+
+
+
+        // Search ##################################################
+        public ActionResult Search([Bind("RegistrationNumber")] ParkedVehicle searchData)
+        {
+            ParkedVehicle vehicle = null;
+
+            if (!string.IsNullOrEmpty(searchData.RegistrationNumber))
+            {
+                vehicle = _context.ParkedVehicle
+                    .FirstOrDefault(v => v.RegistrationNumber == searchData.RegistrationNumber);
+
+                if (vehicle != null && vehicle.NumberOfWheels > 0)
+                    searchData = vehicle;
+            }
+
+            return View(searchData);
         }
     }
 }

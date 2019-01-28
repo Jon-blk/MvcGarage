@@ -1,0 +1,99 @@
+﻿@model MvcGarage2.Models.ParkedVehicle
+
+@{
+    ViewData["Title"] = "Sökning";
+}
+
+<article class="container-fluid">
+    <header>
+        <h1>Sök parkerat fordon</h1>
+        <br />
+    </header>
+
+    <form asp-action="Search">
+        <div class="row">
+            <span class="col-sm-5">
+                <label asp-for="RegistrationNumber" class="control-label"></label>
+                <input asp-for="RegistrationNumber" class="form-control" />
+            </span>
+            <span class="col-sm-2 text-right">
+                <input type="submit" value="Sök fordon" class="btn btn-primary" style="bottom: 0; position: absolute;" />
+            </span>
+            <div class="col-sm-12">
+                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+    </form>
+
+    @if (@Model != null)
+    {
+        if (Model.NumberOfWheels > 0)
+        {
+            var time = DateTime.Now - Model.StartTime;
+            var tid = string.Format("{0} dgr, {1} tim, {2} min", time.Days, time.Hours, time.Minutes);
+
+            <section>
+                <header>
+                    <h4>Sökresultat</h4>
+                </header>
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.RegistrationNumber)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.RegistrationNumber)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.VehicleType)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.VehicleType)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Brand)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Brand)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.VehicleModel)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.VehicleModel)
+                    </dd>
+
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.NumberOfWheels)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.NumberOfWheels)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.StartTime)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayName("Parkerad tid")
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayName(@tid)
+                    </dd>
+                </dl>
+            </section>
+        }
+        else if (!String.IsNullOrEmpty(Model.RegistrationNumber))
+        {
+
+
+                        <div class="row">
+                            <span class="col-sm-4">
+                                Sökningen gav ingen träff!
+                            </span>
+                        </div>
+
+        }
+    }
+        </article>

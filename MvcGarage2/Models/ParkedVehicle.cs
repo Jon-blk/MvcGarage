@@ -8,6 +8,7 @@ namespace MvcGarage2.Models
 {
     public class ParkedVehicle
     {
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Registreringsnummer kan inte vara tomt")]
