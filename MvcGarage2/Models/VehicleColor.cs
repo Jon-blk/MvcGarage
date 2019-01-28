@@ -8,33 +8,33 @@ namespace MvcGarage2.Models
 {
     public enum VehicleColor
     {
-        [Display(Name = "Svart")]
-        Black,
-        [Display(Name = "Mörkblå")]
-        DarkBlue,
-        [Display(Name = "Mörkgrön")]
-        DarkGreen,
-        [Display(Name = "Mörkröd")]
-        DarkRed,
-        [Display(Name = "Mörkgul")]
-        DarkYellow,
-        [Display(Name = "Grå")]
-        Grey,
-        [Display(Name = "Mörkgrå")]
-        DarkGrey,
         [Display(Name = "Blå")]
         Blue,
+        [Display(Name = "Grå")]
+        Grey,
         [Display(Name = "Grön")]
         Green,
-        [Display(Name = "Röd")]
-        Red,
         [Display(Name = "Gul")]
         Yellow,
-        [Display(Name = "Vit")]
-        White,
-        [Display(Name = "Silver")]
-        Silver,
         [Display(Name = "Guld")]
         Gold,
+        [Display(Name = "Mörkblå")]
+        DarkBlue,
+        [Display(Name = "Mörkgrå")]
+        DarkGrey,
+        [Display(Name = "Mörkgrön")]
+        DarkGreen,
+        [Display(Name = "Mörkgul")]
+        DarkYellow,
+        [Display(Name = "Mörkröd")]
+        DarkRed,
+        [Display(Name = "Röd")]
+        Red,
+        [Display(Name = "Silver")]
+        Silver,
+        [Display(Name = "Svart")]
+        Black,
+        [Display(Name = "Vit")]
+        White,
     }
 }
