@@ -51,11 +51,11 @@
             <td>
                 <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
                     <a asp-action="Delete" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-danger">Avsluta parkering</button></a>
+                        <input type="button" value="Avsluta parkering" class="btn btn-danger" /></a>
                     <a asp-action="Details" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-info">Detaljer</button></a>
+                        <input type="button" value="Detaljer" class="btn btn-info" /></a>
                     <a asp-action="Edit" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-secondary">Redigera</button></a>
+                        <input type="button" value="Redigera" class="btn btn-secondary" /></a>
                 </div>
             </td>
         </tr>
