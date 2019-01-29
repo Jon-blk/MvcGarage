@@ -15,36 +15,15 @@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["RegSortParm"]">@Html.DisplayNameFor(model => model.RegistrationNumber)</a>
             </th>
-
-            @*<th>
-            @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.VehicleModel)
-            </th>*@
-            @*<th>
-            @Html.DisplayNameFor(model => model.NumberOfWheels)
-        </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
             </th>
-
-
-            @*<th>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </th>*@
-            @*<th>
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
@@ -63,15 +42,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VehicleModel)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.NumberOfWheels)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
