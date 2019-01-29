@@ -23,10 +23,10 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
         {
-
+           
             ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["BrandSortParm"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
+            ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
             ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
             var vehicles = from s in _context.ParkedVehicle
                            select s;
@@ -40,10 +40,10 @@ namespace MvcGarage2.Controllers
                     vehicles = vehicles.OrderByDescending(s => s.Brand);
                     break;
                 case "VehicleModel":
-                    vehicles = vehicles.OrderBy(s => s.Brand);
+                    vehicles = vehicles.OrderBy(s => s.VehicleModel);
                     break;
                 case "vehiclesModel_desc":
-                    vehicles = vehicles.OrderByDescending(s => s.Brand);
+                    vehicles = vehicles.OrderByDescending(s => s.VehicleModel);
                     break;
                 case "reg_desc":
                     vehicles = vehicles.OrderByDescending(s => s.RegistrationNumber);
