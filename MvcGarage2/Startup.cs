@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
+using System.Globalization;
 
 namespace MvcGarage2
 {
@@ -26,13 +27,19 @@ namespace MvcGarage2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("se-SV");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("se-SV"), new CultureInfo("sv-FI") };
+                options.RequestCultureProviders.Clear();
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -56,6 +63,7 @@ namespace MvcGarage2
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRequestLocalization();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
