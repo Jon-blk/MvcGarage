@@ -23,8 +23,12 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
         {
-           
-            ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
+            if (String.IsNullOrEmpty(sortOrder))
+                ViewData["RegSortParm"] = "reg_desc";
+            else
+                ViewData["RegSortParm"] = sortOrder == "Reg" ? "reg_desc" : "Reg";
+
+
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
             ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
@@ -61,7 +65,7 @@ namespace MvcGarage2.Controllers
                     vehicles = vehicles.OrderBy(s => s.RegistrationNumber);
                     break;
             }
-          
+
             return View(await vehicles.AsNoTracking().ToListAsync());
         }
 
@@ -84,7 +88,7 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
             return View(parkedVehicleCost);
         }
-  
+
 
 
 
@@ -123,7 +127,7 @@ namespace MvcGarage2.Controllers
 
                 return View(parkedVehicle);
             }
-           
+
             if (ModelState.IsValid)
             {
                 parkedVehicle.StartTime = DateTime.Now;
@@ -243,7 +247,7 @@ namespace MvcGarage2.Controllers
 
 
         // Search ##################################################
-        
+
         public ActionResult Search()
         {
             return View();
