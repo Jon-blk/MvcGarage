@@ -23,7 +23,6 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
         {
-           
             ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
@@ -242,17 +241,17 @@ namespace MvcGarage2.Controllers
 
 
 
-        // Search ##################################################
-        
+        // GET: Search by regnbr
         public ActionResult Search()
         {
             return View();
         }
 
+        // POST: Search by regnbr
         [HttpPost]
         public ActionResult Search([Bind("RegistrationNumber")] ParkedVehicle searchData)
         {
-            ParkedVehicle vehicle = null;
+            ParkedVehicle vehicle;
 
             if (!string.IsNullOrEmpty(searchData.RegistrationNumber))
             {
@@ -261,7 +260,6 @@ namespace MvcGarage2.Controllers
 
                 if (vehicle != null && vehicle.NumberOfWheels > 0)
                 {
-                    // Träff på fordon
                     searchData = vehicle;
                 }
             }
