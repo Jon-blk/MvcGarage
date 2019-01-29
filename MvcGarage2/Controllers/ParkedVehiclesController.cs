@@ -188,6 +188,13 @@ namespace MvcGarage2.Controllers
 
 
         // Search ##################################################
+        
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Search([Bind("RegistrationNumber")] ParkedVehicle searchData)
         {
             ParkedVehicle vehicle = null;
@@ -198,7 +205,10 @@ namespace MvcGarage2.Controllers
                     .FirstOrDefault(v => v.RegistrationNumber == searchData.RegistrationNumber);
 
                 if (vehicle != null && vehicle.NumberOfWheels > 0)
+                {
+                    // Träff på fordon
                     searchData = vehicle;
+                }
             }
 
             return View(searchData);
