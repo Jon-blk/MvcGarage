@@ -23,11 +23,10 @@ namespace MvcGarage2.Models
 
         [Display(Name = "Antal hjul")]
         [Required(ErrorMessage = "Antal hjul måste anges")]
-        [Range(1, 10,
+        [Range(1, 8,
         ErrorMessage = "Fordon måste ha mellan {1} och {2} hjul")]
         public int NumberOfWheels { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
         [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 

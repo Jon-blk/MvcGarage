@@ -134,6 +134,7 @@ namespace MvcGarage2.Controllers
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
+                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har parkerats";
                 return RedirectToAction(nameof(Index));
             }
             return View(parkedVehicle);
@@ -195,6 +196,8 @@ namespace MvcGarage2.Controllers
                         throw;
                     }
                 }
+                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har redigerats";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(parkedVehicle);

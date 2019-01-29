@@ -15,36 +15,15 @@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["RegSortParm"]">@Html.DisplayNameFor(model => model.RegistrationNumber)</a>
             </th>
-
-            @*<th>
-            @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.VehicleModel)
-            </th>*@
-            @*<th>
-            @Html.DisplayNameFor(model => model.NumberOfWheels)
-        </th>*@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
             </th>
-
-
-            @*<th>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </th>*@
-            @*<th>
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Color)
             </th>
@@ -63,26 +42,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VehicleModel)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.NumberOfWheels)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
             <td>
                 <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
                     <a asp-action="Delete" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-danger">Avsluta parkering</button></a>
+                        <input type="button" value="Avsluta parkering" class="btn btn-danger" /></a>
                     <a asp-action="Details" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-info">Detaljer</button></a>
+                        <input type="button" value="Detaljer" class="btn btn-info" /></a>
                     <a asp-action="Edit" asp-route-id="@item.Id">
-                        <button type="button" class="btn btn-secondary">Redigera</button></a>
+                        <input type="button" value="Redigera" class="btn btn-secondary" /></a>
                 </div>
             </td>
         </tr>
