@@ -32,6 +32,8 @@ namespace MvcGarage2.Controllers
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
             ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
+            ViewData["ColorSortParam"] = sortOrder == "Color" ? "color_desc" : "Color";
+
             var vehicles = from s in _context.ParkedVehicle
                            select s;
             switch (sortOrder)
@@ -60,6 +62,13 @@ namespace MvcGarage2.Controllers
                     break;
                 case "date_desc":
                     vehicles = vehicles.OrderByDescending(s => s.StartTime);
+                    break;
+                    break;
+                case "Color":
+                    vehicles = vehicles.OrderBy(s => s.Color);
+                    break;
+                case "color_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.Color);
                     break;
                 default:
                     vehicles = vehicles.OrderBy(s => s.RegistrationNumber);

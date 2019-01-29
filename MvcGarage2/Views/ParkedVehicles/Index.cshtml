@@ -25,8 +25,9 @@
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Color)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ColorSortParam"]">@Html.DisplayNameFor(model => model.Color)</a>
             </th>
+          
             <th></th>
         </tr>
     </thead>
