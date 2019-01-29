@@ -27,7 +27,6 @@ namespace MvcGarage2.Models
         ErrorMessage = "Fordon måste ha mellan {1} och {2} hjul")]
         public int NumberOfWheels { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
         [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 
