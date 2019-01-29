@@ -1,122 +1,76 @@
 ﻿@model IEnumerable<MvcGarage2.Models.ParkedVehicle>
 
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Start";
 }
 
+<h1>@ViewData["Title"]</h1>
 
-
-<style>
-    .styleAreaCheckin {
-        padding-right: 12px;
-        text-align: right;
-    }
-
-    .styleGroupBtn {
-        padding-right: 0;
-        text-align: right;
-        padding: 0.4em;
-    }
-
-    .styleBtn {
-        padding: 2px 12px 3px 12px;
-        margin-left: 0.5em;
-        margin-bottom: 0.5em;
-        display: inline;
-    }
-</style>
-
-<h1>Fordon i garaget</h1>
-
-<p class="styleAreaCheckin">
-    <a asp-action="Create">
-        <input type="button" value="Checka in fordon" class="btn btn-xs btn-primary styleBtn" />
-    </a>
+<p>
+    <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
-
-@if (Model.Count() > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <!-- VehicleType 	RegistrationNumber 	Brand 	Color 	ParkedTime  -->
-                <th>
-                    @Html.DisplayNameFor(model => model.VehicleType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RegistrationNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Brand)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Color)
-                </th>
-                <th>
-                    <!--  @@Html.DisplayNameFor(model => model.StartTime) -->
-                    Parked time
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VehicleType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Brand)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Color)
-                    </td>
-                    <td>
-
-                        @{
-                            var time = DateTime.Now - item.StartTime;
-                            var tid = string.Format("{0} d, {1} t, {2} m, {3} s", time.Days, time.Hours, time.Minutes, time.Seconds);
-                        }
-                        <!-- @Html.DisplayFor(modelItem => item.StartTime); -->
-
-                        <span>@tid</span>
-                    </td>
-
-
-
-
-                    <td class="styleGroupBtn">
-                        @*<a asp-action="Edit" asp-route-id="@item.Id">Ändra</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Information</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Checka ut</a>*@
-
-                        <a asp-action="Edit" asp-route-id="@item.Id">
-                            <input type="button" value="Ändra" class="btn btn-xs btn-info styleBtn" />
-                        </a>
-
-                        <a asp-action="Details" asp-route-id="@item.Id">
-                            <input type="button" value="Detaljer" class="btn btn-md btn-info styleBtn" />
-                        </a>
-
-                        <a asp-action="Delete" asp-route-id="@item.Id">
-                            <input type="button" value="Checka ut" class="btn btn-md btn-primary styleBtn" />
-                        </a>
-                    </td>
-
-                </tr>
-            }
-
-        </tbody>
-    </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RegistrationNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleModel)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.NumberOfWheels)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.VehicleType)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleModel)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.NumberOfWheels)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.VehicleType)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-danger">Avsluta parkering</button></a>
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-info">Detaljer</button></a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-secondary">Redigera</button></a>
+                </div>
+            </td>
+        </tr>
 }
-else
-{
-    <p style="text-align:center;">
-        The garage i empty
-    </p>
-}
+    </tbody>
+</table>

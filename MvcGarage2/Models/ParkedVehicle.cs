@@ -27,16 +27,16 @@ namespace MvcGarage2.Models
         ErrorMessage = "Fordon måste ha mellan {1} och {2} hjul")]
         public int NumberOfWheels { get; set; }
 
-        [DataType(DataType.Time)]
-        [Display(Name = "Parkering inledd")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-ddThh:mm}")]
+        [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 
         [Display(Name = "Fordonstyp")]
-        //[EnumDataType(typeof(VehicleType))]
+        [EnumDataType(typeof(VehicleType))]
         public VehicleType VehicleType { get; set; }
 
         [Display(Name = "Färg")]
-        //[EnumDataType(typeof(ConsoleColor))]
-        public ConsoleColor Color { get; set; }
+        [EnumDataType(typeof(VehicleColor))]
+        public VehicleColor Color { get; set; }
     }
 }

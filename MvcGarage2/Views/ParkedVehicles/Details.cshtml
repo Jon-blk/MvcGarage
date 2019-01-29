@@ -12,7 +12,7 @@
 <partial name="_DetailsPartial"/>
 </div>
 <div>
+    <a asp-action="Delete" asp-route-id="@Model.ParkedVehicle.Id"><input type="submit" value="Avsluta Parkering" class="btn btn-danger" /></a>
     <a asp-action="Edit" asp-route-id="@Model.ParkedVehicle.Id">Redigera</a>
-    <a asp-action="Delete" asp-route-id="@Model.ParkedVehicle.Id">Avsluta parkering</a>
 </div>
 <partial name="_BackToIndexPartial" />

@@ -10,8 +10,6 @@ using MvcGarage2.Models;
 
 namespace MvcGarage2.Controllers
 {
-    enum Colors { Red = 1, Green = 2, Blue = 4, Yellow = 8 };
-
     public class ParkedVehiclesController : Controller
     {
         private readonly MvcGarage2Context _context;
@@ -60,29 +58,8 @@ namespace MvcGarage2.Controllers
         public IActionResult Create()
         {
 
-            var parkingView = new ParkedVehicleViewModel();
-            //var tempArray = Enum.GetValues(typeof(VehicleType));//enum => list
-            //var tempList = new List<string>();
-            //foreach (string item in tempArray)
-            //{
-            //    tempList.Add(item as string);
-            //}
-            //parkingView.Types = new SelectList(tempList);
-
-
-            //var tempArray2 = Enum.GetValues(typeof(Colors));//enum => list
-            //var tempList2 = new List<string>();
-            //foreach (string colorName in Enum.GetValues(typeof(Colors)))
-            //{
-            //    tempList2.Add(colorName);
-            //}
-
-            //parkingView.Colors = new SelectList(tempList2);
-
-            parkingView.Colors = new SelectList(new string[] { "Blue", "Black", "Green" });
-            parkingView.Types = new SelectList(new string[] { "Car", "Motorcycle", "Bus" });
-
-            return View(parkingView);
+            var vehicleParking = new ParkedVehicle();
+            return View(vehicleParking);
         }
 
         // POST: ParkedVehicles/Create
@@ -95,6 +72,11 @@ namespace MvcGarage2.Controllers
             if (ModelState.IsValid)
             {
                 parkedVehicle.StartTime = DateTime.Now;
+                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
+                {
+                    return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
+                }
+                parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -132,6 +114,12 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
+                // assumption: You can edit the registratration number (but not to something that already exists)
+                if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper() && v.Id != parkedVehicle.Id))
+                {
+                    return View(parkedVehicle); //TODO: error, edited reg-number to existing! 
+                }
+                parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
                     _context.Update(parkedVehicle);
@@ -178,9 +166,9 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            ParkedVehicle parkedVehicle;
 
-
-            var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
+            parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
             _context.ParkedVehicle.Remove(parkedVehicle);
             await _context.SaveChangesAsync();
             //return RedirectToAction(nameof(Index));
@@ -188,7 +176,7 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
 
-            return View("Receipt", parkedVehicleCost);
+            return View("Receipt", parkedVehicleCost); //doesn't currently work while reloading
         }
 
         private bool ParkedVehicleExists(int id)
