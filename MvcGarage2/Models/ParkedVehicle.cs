@@ -23,7 +23,7 @@ namespace MvcGarage2.Models
 
         [Display(Name = "Antal hjul")]
         [Required(ErrorMessage = "Antal hjul måste anges")]
-        [Range(1, 10,
+        [Range(1, 8,
         ErrorMessage = "Fordon måste ha mellan {1} och {2} hjul")]
         public int NumberOfWheels { get; set; }
 
