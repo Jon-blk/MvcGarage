@@ -28,7 +28,7 @@ namespace MvcGarage2.Controllers
             else
                 ViewData["RegSortParm"] = sortOrder == "Reg" ? "reg_desc" : "Reg";
 
-
+            ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
             ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
@@ -97,13 +97,6 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime)} kr";
             return View(parkedVehicleCost);
         }
-
-
-
-
-
-
-
 
         private double CalculateParkingCost(DateTime startTime)
         {
@@ -255,33 +248,41 @@ namespace MvcGarage2.Controllers
             return _context.ParkedVehicle.Any(e => e.Id == id);
         }
 
-
-
-
         // GET: Search by regnbr
-        public ActionResult Search()
+        public ActionResult Search(string Registreringsnummer)
         {
-            return View();
-        }
+            IEnumerable<ParkedVehicle> parkedVehicleList = null;  // = null;
 
-        // POST: Search by regnbr
-        [HttpPost]
-        public ActionResult Search([Bind("RegistrationNumber")] ParkedVehicle searchData)
-        {
-            ParkedVehicle vehicle;
+            ViewData["Title_Reg"] = "Registreringsnummer";  // Fält- och label-namn
+            ViewData["RegNbr"] = "";  // Ev. indata
 
-            if (!string.IsNullOrEmpty(searchData.RegistrationNumber))
+            if (!string.IsNullOrEmpty(Registreringsnummer))
             {
-                vehicle = _context.ParkedVehicle
-                    .FirstOrDefault(v => v.RegistrationNumber == searchData.RegistrationNumber);
+                VehiclePriceViewModel vehicle = new VehiclePriceViewModel();
+                ParkedVehicle fordon = _context.ParkedVehicle
+                    .FirstOrDefault(v => v.RegistrationNumber == Registreringsnummer);
 
-                if (vehicle != null && vehicle.NumberOfWheels > 0)
+                if (fordon != null)
                 {
-                    searchData = vehicle;
+                    vehicle.ParkedVehicle = fordon;
+                    vehicle.CurrentPrice = $"{CalculateParkingCost(fordon.StartTime):C2}";
+
+                    return View("Details", vehicle);
+                }
+                else
+                {
+                    ViewData["RegNbr"] = Registreringsnummer;
+
+                    parkedVehicleList = (from p in _context.ParkedVehicle
+                                             where p.RegistrationNumber.Contains(Registreringsnummer)
+                                             orderby p.RegistrationNumber
+                                             select p);
                 }
             }
 
-            return View(searchData);
+            return View(parkedVehicleList);
         }
+
+
     }
 }

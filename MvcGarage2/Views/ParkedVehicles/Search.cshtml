@@ -1,4 +1,4 @@
-﻿@model MvcGarage2.Models.ParkedVehicle
+﻿@model IEnumerable<MvcGarage2.Models.ParkedVehicle>
 
 @{
     ViewData["Title"] = "Sökning";
@@ -10,17 +10,17 @@
         <br />
     </header>
 
-    <form asp-action="Search">
+    <form asp-action="Search" method="get">
         <div class="row">
             <span class="col-sm-5">
-                <label asp-for="RegistrationNumber" class="control-label"></label>
-                <input asp-for="RegistrationNumber" class="form-control" />
+                <label class="control-label">@ViewData["Title_Reg"]</label>
+                <input name="@ViewData["Title_Reg"]" class="form-control" value="@ViewData["RegNbr"]" />
             </span>
             <span class="col-sm-2 text-right">
                 <input type="submit" value="Sök fordon" class="btn btn-primary" style="bottom: 0; position: absolute;" />
             </span>
             <div class="col-sm-12">
-                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                <span asp-validation-for="@ViewData["Title_Reg"]" class="text-danger"></span>
             </div>
         </div>
         <br />
@@ -28,85 +28,88 @@
 
     @if (@Model != null)
     {
-        if (Model.NumberOfWheels > 0)
-        {
-            var time = DateTime.Now - Model.StartTime;
-            var tid = string.Format("{0} dgr, {1} tim, {2} min", time.Days, time.Hours, time.Minutes);
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegistrationNumber)
+                </th>
+                @*<th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                @*<th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.VehicleModel)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.NumberOfWheels)
+                </th>*@
+                @*<th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
+                </th>*@
 
-            <section>
-                <header>
-                    <h4>Sökresultat</h4>
-                </header>
-                <dl class="row">
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.RegistrationNumber)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.RegistrationNumber)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.VehicleType)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.VehicleType)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.Brand)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.Brand)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.VehicleModel)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.VehicleModel)
-                    </dd>
 
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.NumberOfWheels)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.NumberOfWheels)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayNameFor(model => model.StartTime)
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayFor(model => model.StartTime)
-                    </dd>
-                    <dt class="col-sm-4">
-                        @Html.DisplayName("Parkerad tid")
-                    </dt>
-                    <dd class="col-sm-8">
-                        @Html.DisplayName(@tid)
-                    </dd>
-                </dl>
-            </section>
-
-            <nav>
-             
-                <div class="row">
-                   
-                        <partial name="_ActionButtons" model=" @Model.Id" />
-                       @*<a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" role="button">Avsluta parkering</a>
-        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model.Id" role="button">Detaljer</a>
-        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id" role="button">Redigera</a>*@
-                    </div>
-                
-            </nav>
-
-        }
-        else if (!String.IsNullOrEmpty(Model.RegistrationNumber))
-        {
-            <section>
-                <h5>Rubrik</h5>
-                <div class="row">
-                    <span class="col-sm-4">
-                        Sökningen gav ingen träff!
-                    </span>
-                </div>
-            </section>
-        }
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VehicleType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Color)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="6"> <center> Inget fordon hittas!</center> </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleModel)
+                        </td>
+                        @*<td>
+                        @Html.DisplayFor(modelItem => item.NumberOfWheels)
+                    </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                        @Html.DisplayFor(modelItem => item.VehicleType)
+                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Color)
+                        </td>
+                        <td>
+                            <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
+                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
+                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
     }
-        </article>
+</article>
