@@ -90,13 +90,6 @@ namespace MvcGarage2.Controllers
             ViewData["SubTitle"] = "";
             return View(parkedVehicleCost);
         }
-  
-
-
-
-
-
-
 
         private double CalculateParkingCost(DateTime startTime)
         {
@@ -110,7 +103,6 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles/Create
         public IActionResult Create()
         {
-
             var vehicleParking = new ParkedVehicle();
             return View(vehicleParking);
         }
@@ -178,8 +170,6 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
-
-
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
