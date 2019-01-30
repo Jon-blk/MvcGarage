@@ -86,8 +86,6 @@ namespace MvcGarage2.Controllers
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
             parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
-
-            ViewData["SubTitle"] = "";
             return View(parkedVehicleCost);
         }
 
@@ -128,7 +126,8 @@ namespace MvcGarage2.Controllers
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
@@ -187,7 +186,8 @@ namespace MvcGarage2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
