@@ -136,8 +136,8 @@ namespace MvcGarage2.Controllers
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
-                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har parkerats";
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
@@ -179,8 +179,6 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
-
-
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
@@ -198,9 +196,8 @@ namespace MvcGarage2.Controllers
                         throw;
                     }
                 }
-                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har redigerats";
-
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
