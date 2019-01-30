@@ -23,6 +23,11 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
         {
+            if (String.IsNullOrEmpty(sortOrder))
+                ViewData["RegSortParm"] = "reg_desc";
+            else
+                ViewData["RegSortParm"] = sortOrder == "Reg" ? "reg_desc" : "Reg";
+
             ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
