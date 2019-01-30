@@ -71,11 +71,13 @@
                 @Html.DisplayFor(modelItem => item.Color)
             </td>
             <td>
-                <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
-                </div>
+                <partial name="_ActionButtons"  model=" item.Id" />
+                
+                         @*<div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
+            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
+            <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
+        </div>*@
             </td>
         </tr>
 }

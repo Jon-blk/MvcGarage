@@ -63,7 +63,7 @@ namespace MvcGarage2.Controllers
                 case "date_desc":
                     vehicles = vehicles.OrderByDescending(s => s.StartTime);
                     break;
-                    break;
+                 
                 case "Color":
                     vehicles = vehicles.OrderBy(s => s.Color);
                     break;
@@ -115,7 +115,7 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: ParkedVehicles/Create
-        public IActionResult Create()
+        public IActionResult  Create()
         {
 
             var vehicleParking = new ParkedVehicle();

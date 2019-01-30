@@ -85,13 +85,15 @@
             </section>
 
             <nav>
+             
                 <div class="row">
-                    <div class="col-sm-6" style="padding-left:0;">
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" role="button">Avsluta parkering</a>
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model.Id" role="button">Detaljer</a>
-                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id" role="button">Redigera</a>
+                   
+                        <partial name="_ActionButtons" model=" @Model.Id" />
+                       @*<a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id" role="button">Avsluta parkering</a>
+        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model.Id" role="button">Detaljer</a>
+        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id" role="button">Redigera</a>*@
                     </div>
-                </div>
+                
             </nav>
 
         }
