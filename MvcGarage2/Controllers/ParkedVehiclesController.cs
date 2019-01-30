@@ -94,7 +94,7 @@ namespace MvcGarage2.Controllers
             }
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime)} kr";
             return View(parkedVehicleCost);
         }
 
