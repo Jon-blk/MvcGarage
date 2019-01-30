@@ -10,17 +10,21 @@
     <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
 
+
+
+<div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
-                <th>
+                <th class="visible-md visible-lg">
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["RegSortParm"]">@Html.DisplayNameFor(model => model.RegistrationNumber)</a>
                 </th>
+
 
                 @*<th>
                         @Html.DisplayNameFor(model => model.RegistrationNumber)
                     </th>*@
-                <th>
+                <th class="visible-md visible-lg">
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
                 </th>
                 @*<th>
@@ -57,10 +61,10 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="visible-md visible-lg">
                         @Html.DisplayFor(modelItem => item.RegistrationNumber)
                     </td>
-                    <td>
+                    <td class="visible-md visible-lg">
                         @Html.DisplayFor(modelItem => item.Brand)
                     </td>
                     <td>
@@ -85,4 +89,5 @@
             }
         </tbody>
     </table>
+</div>
 
