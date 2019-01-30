@@ -46,8 +46,9 @@
             @Html.DisplayNameFor(model => model.VehicleType)
         </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Color)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ColorSortParam"]">@Html.DisplayNameFor(model => model.Color)</a>
             </th>
+          
             <th></th>
         </tr>
     </thead>
@@ -63,15 +64,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VehicleModel)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.NumberOfWheels)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.StartTime)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Color)
             </td>

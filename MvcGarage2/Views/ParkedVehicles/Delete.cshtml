@@ -10,11 +10,16 @@
 <h4>Varning - går inte att ångra!</h4>
 <div>
     <hr />
- <partial name="_DetailsPartial" />
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ParkedVehicle.Id" />
-        <input type="submit" value="Avsluta" class="btn btn-danger" />
-    </form>
-</div>
-<partial name="_BackToIndexPartial"/>
+    <partial name="_DetailsPartial" />
+    <div class="form-group">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ParkedVehicle.Id" />
+            <input type="submit" value="Bekräfta avsluta" class="btn btn-danger" />
+
+            <a asp-action="Index">
+                <input type="button" value="Avbryt" class="btn btn-secondary" />
+            </a>
+        </form>
+        </div>
+    </div>
+    @*<partial name="_BackToIndexPartial" />*@
