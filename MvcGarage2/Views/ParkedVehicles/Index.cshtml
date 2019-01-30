@@ -24,13 +24,13 @@
                 @*<th>
                         @Html.DisplayNameFor(model => model.RegistrationNumber)
                     </th>*@
-                <th class="visible-md visible-lg">
+                <th >
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
                 </th>
                 @*<th>
                         @Html.DisplayNameFor(model => model.Brand)
                     </th>*@
-                <th>
+                <th class="d-none d-md-block">
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
                 </th>
                 @*<th>
@@ -39,7 +39,7 @@
                 @*<th>
                         @Html.DisplayNameFor(model => model.NumberOfWheels)
                     </th>*@
-                <th>
+                <th class="d-none d-md-block">
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
                 </th>
 
@@ -50,7 +50,7 @@
                 @*<th>
                         @Html.DisplayNameFor(model => model.VehicleType)
                     </th>*@
-                <th>
+                <th class="d-none d-md-block">
                     <a asp-action="Index" asp-route-sortOrder="@ViewData["ColorSortParam"]">@Html.DisplayNameFor(model => model.Color)</a>
                 </th>
 
@@ -60,32 +60,32 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td class="visible-md visible-lg">
-                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
-                    </td>
-                    <td class="visible-md visible-lg">
-                        @Html.DisplayFor(modelItem => item.Brand)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VehicleModel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Color)
-                    </td>
-                    <td>
-                        <partial name="_ActionButtons" model=" item.Id" />
+            <tr>
+                <td class="visible-md visible-lg">
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td>
+                <td class="visible-md visible-lg">
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.VehicleModel)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    <partial name="_ActionButtons" model=" item.Id" />
 
-                        @*<div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
-                                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
-                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
-                            </div>*@
-                    </td>
-                </tr>
+                    @*<div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
+            </div>*@
+                </td>
+            </tr>
             }
         </tbody>
     </table>
