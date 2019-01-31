@@ -1,5 +1,5 @@
 ﻿@model MvcGarage2.Models.VehiclePriceViewModel
-@{Layout = "_ReceiptLayout";}
+@{Layout = "_Layout";}
 
 @{
     ViewData["Title"] = "Kvitto";
@@ -10,7 +10,7 @@
 <div>
     <h4>Avslutad parkering</h4>
     <h3>@DateTime.Now</h3>
-    <h3>@Model.CurrentPrice</h3>
+    <strong>Betalt @Model.CurrentPrice kr</strong>
     <hr />
 
     <dl class="row">

@@ -94,17 +94,17 @@ namespace MvcGarage2.Controllers
             }
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime)} kr";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
             return View(parkedVehicleCost);
         }
 
-        private double CalculateParkingCost(DateTime startTime)
+        private float CalculateParkingCost(DateTime startTime)
         {
             /* Currently implemented as cost per minute, should maybe charge for each start hour/half hour etc */
             const double pricePerHour = 10.0;
             var pricePerMinute = pricePerHour / 60.0;
             TimeSpan spentTime = DateTime.Now - startTime;
-            return (spentTime.TotalMinutes * pricePerMinute);
+            return (float) (spentTime.TotalMinutes * pricePerMinute);
         }
 
         // GET: ParkedVehicles/Create
@@ -218,7 +218,7 @@ namespace MvcGarage2.Controllers
             }
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
             return View(parkedVehicleCost);
         }
 
@@ -235,7 +235,7 @@ namespace MvcGarage2.Controllers
             //return RedirectToAction(nameof(Index));
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
 
             return View("Receipt", parkedVehicleCost); //doesn't currently work while reloading
         }
@@ -262,7 +262,7 @@ namespace MvcGarage2.Controllers
                 if (fordon != null)
                 {
                     vehicle.ParkedVehicle = fordon;
-                    vehicle.CurrentPrice = $"{CalculateParkingCost(fordon.StartTime):C2}";
+                    vehicle.CurrentPrice = CalculateParkingCost(fordon.StartTime);
 
                     return View("Details", vehicle);
                 }
