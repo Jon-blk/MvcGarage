@@ -11,7 +11,7 @@ namespace MvcGarage2.Models
 
         public ParkedVehicle ParkedVehicle { get; set; }
 
-        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         public float CurrentPrice { get; set; }
     }
 }

@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace MvcGarage2
 {
@@ -26,6 +28,12 @@ namespace MvcGarage2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(o =>
+            {
+                // We will put our translations in a folder called Resources
+                o.ResourcesPath = "Resources";
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,6 +46,10 @@ namespace MvcGarage2
 
             services.AddDbContext<MvcGarage2Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MvcGarage2Context")));
+
+            services.AddOptions();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,10 +65,26 @@ namespace MvcGarage2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseStaticFiles();
+            IList<CultureInfo> supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("fi-FI"),
+         new CultureInfo("sv-SV"),
+    };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("sv-SV"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+    
+       
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            
 
             app.UseMvc(routes =>
             {

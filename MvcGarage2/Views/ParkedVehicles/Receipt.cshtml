@@ -10,7 +10,11 @@
 <div>
     <h4>Avslutad parkering</h4>
     <h3>@DateTime.Now</h3>
-    <strong>Betalt @Model.CurrentPrice kr</strong>
+
+    <strong>Betalt @{Write($"{Model.CurrentPrice:C2}");
+     
+        Write($"{System.Globalization.NumberFormatInfo.CurrentInfo.CurrencySymbol}");
+} kr</strong>
     <hr />
 
     <dl class="row">

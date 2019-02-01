@@ -7,18 +7,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using MvcGarage2.Models;
 
 namespace MvcGarage2.Controllers
 {
     public class ParkedVehiclesController : Controller
     {
+
+
         private readonly MvcGarage2Context _context;
+
+
 
         public ParkedVehiclesController(MvcGarage2Context context)
         {
             _context = context;
         }
+
 
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
