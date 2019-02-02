@@ -2,8 +2,13 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<section class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
-    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model" role="button">Avsluta parkering</a>
+
+<td >
     <a class="btn btn-info" asp-action="Details" asp-route-id="@Model" role="button">Detaljer</a>
+</td>
+<td class="d-none d-md-block">
     <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model" role="button">Redigera</a>
-</section>
+</td>
+<td class="d-none d-md-block">
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model" role="button">Avsluta parkering</a>
+</td>

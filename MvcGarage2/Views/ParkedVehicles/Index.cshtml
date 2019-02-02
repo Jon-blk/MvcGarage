@@ -76,7 +76,7 @@
                 <td class="d-none d-md-block">
                     @Html.DisplayFor(modelItem => item.Color)
                 </td>
-                <td>
+                
                     <partial name="_ActionButtons" model=" item.Id" />
 
                     @*<div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
@@ -84,7 +84,7 @@
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
                 <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
             </div>*@
-                </td>
+               
             </tr>
             }
         </tbody>

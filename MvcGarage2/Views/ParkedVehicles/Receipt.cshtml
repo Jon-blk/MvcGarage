@@ -10,48 +10,49 @@
 <div>
     <h4>Avslutad parkering</h4>
     <h3>@DateTime.Now</h3>
+    <strong>
+        Betalt @{Write($"{Model.CurrentPrice:C2}");}
+  
 
-    <strong>Betalt @{Write($"{Model.CurrentPrice:C2}");
-     
-        Write($"{System.Globalization.NumberFormatInfo.CurrentInfo.CurrencySymbol}");
-} kr</strong>
+
+    </strong>
     <hr />
 
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class="col-sm-4 table-responsive-md">
             @Html.DisplayNameFor(model => model.ParkedVehicle.RegistrationNumber)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedVehicle.RegistrationNumber)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.ParkedVehicle.Brand)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedVehicle.Brand)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.ParkedVehicle.VehicleModel)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedVehicle.VehicleModel)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.ParkedVehicle.StartTime)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedVehicle.StartTime)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.ParkedVehicle.VehicleType)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedVehicle.VehicleType)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.ParkedVehicle.Color)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-8 table-responsive-md">
             @Html.DisplayFor(model => model.ParkedVehicle.Color)
         </dd>
     </dl>

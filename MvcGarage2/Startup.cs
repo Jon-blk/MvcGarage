@@ -66,18 +66,21 @@ namespace MvcGarage2
                 app.UseHsts();
             }
             app.UseStaticFiles();
+            CultureInfo.CurrentUICulture = new CultureInfo("sv-SV", true);
+
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
     {
-        new CultureInfo("en-US"),
+        
         new CultureInfo("fi-FI"),
          new CultureInfo("sv-SV"),
+         new CultureInfo("en-US")
     };
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture("sv-SV"),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            });
+            //app.UseRequestLocalization(new RequestLocalizationOptions
+            //{
+            //    DefaultRequestCulture = new RequestCulture("en-GB"),
+            //    SupportedCultures = supportedCultures,
+            //    SupportedUICultures = supportedCultures
+            //});
     
        
 
