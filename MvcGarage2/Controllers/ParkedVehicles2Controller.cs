@@ -22,6 +22,8 @@ namespace MvcGarage2.Controllers
         public async Task<IActionResult> Index()
         {
             var mvcGarage2Context = _context.ParkedVehicle.Include(p => p.VehicleType).Include(p => p.Member);
+
+
             return View(await mvcGarage2Context.ToListAsync());
         }
 

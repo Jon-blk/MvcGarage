@@ -93,7 +93,7 @@ namespace MvcGarage2
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=ParkedVehicles}/{action=Index}/{id?}");
+                    template: "{controller=ParkedVehicles2}/{action=Index}/{id?}");
             });
         }
     }
