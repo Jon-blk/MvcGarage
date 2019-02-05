@@ -41,7 +41,6 @@ namespace MvcGarage2
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDbContext<MvcGarage2Context>(options =>
@@ -66,14 +65,14 @@ namespace MvcGarage2
                 app.UseHsts();
             }
             app.UseStaticFiles();
-            CultureInfo.CurrentUICulture = new CultureInfo("sv-SV", true);
+            CultureInfo.CurrentUICulture = new CultureInfo("sv-se", true);
 
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
     {
         
-        new CultureInfo("fi-FI"),
-         new CultureInfo("sv-SV"),
-         new CultureInfo("en-US")
+        new CultureInfo("sv-fi"),
+         new CultureInfo("sv-se"),
+         new CultureInfo("en-us")
     };
             //app.UseRequestLocalization(new RequestLocalizationOptions
             //{
@@ -86,6 +85,7 @@ namespace MvcGarage2
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRequestLocalization();
             app.UseCookiePolicy();
             
 
