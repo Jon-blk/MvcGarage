@@ -253,7 +253,7 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: Search by regnbr
-        public ActionResult Search(string Registreringsnummer)
+        public IActionResult Search(string Registreringsnummer)
         {
             IEnumerable<ParkedVehicle> parkedVehicleList = null;  // = null;
 
@@ -278,9 +278,9 @@ namespace MvcGarage2.Controllers
                     ViewData["RegNbr"] = Registreringsnummer;
 
                     parkedVehicleList = (from p in _context.ParkedVehicle
-                                             where p.RegistrationNumber.Contains(Registreringsnummer)
-                                             orderby p.RegistrationNumber
-                                             select p);
+                                         where p.RegistrationNumber.Contains(Registreringsnummer)
+                                         orderby p.RegistrationNumber
+                                         select p);
                 }
             }
 
