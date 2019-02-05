@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MvcGarage2.Migrations
 {
-    public partial class initial2 : Migration
+    public partial class INITIAL : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,9 +46,9 @@ namespace MvcGarage2.Migrations
                     VehicleModel = table.Column<string>(nullable: true),
                     NumberOfWheels = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
+                    VehicleTypeId = table.Column<int>(nullable: false),
                     Color = table.Column<int>(nullable: false),
-                    MemberId = table.Column<int>(nullable: false),
-                    VehicleTypeId = table.Column<int>(nullable: false)
+                    MemberId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
