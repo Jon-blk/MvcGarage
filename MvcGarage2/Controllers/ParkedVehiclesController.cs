@@ -7,27 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using MvcGarage2.Models;
 
 namespace MvcGarage2.Controllers
 {
     public class ParkedVehiclesController : Controller
     {
+
+
         private readonly MvcGarage2Context _context;
+
+
 
         public ParkedVehiclesController(MvcGarage2Context context)
         {
             _context = context;
         }
 
+
         // GET: ParkedVehicles
         public async Task<IActionResult> Index(string sortOrder)
         {
-           
+            if (String.IsNullOrEmpty(sortOrder))
+                ViewData["RegSortParm"] = "reg_desc";
+            else
+                ViewData["RegSortParm"] = sortOrder == "Reg" ? "reg_desc" : "Reg";
+
             ViewData["RegSortParm"] = String.IsNullOrEmpty(sortOrder) ? "reg_desc" : "Reg";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["BrandSortParam"] = sortOrder == "Brand" ? "brand_desc" : "Brand";
             ViewData["VehicleModelSortParam"] = sortOrder == "VehicleModel" ? "vehiclesModel_desc" : "VehicleModel";
+            ViewData["ColorSortParam"] = sortOrder == "Color" ? "color_desc" : "Color";
+
             var vehicles = from s in _context.ParkedVehicle
                            select s;
             switch (sortOrder)
@@ -57,11 +70,18 @@ namespace MvcGarage2.Controllers
                 case "date_desc":
                     vehicles = vehicles.OrderByDescending(s => s.StartTime);
                     break;
+                 
+                case "Color":
+                    vehicles = vehicles.OrderBy(s => s.Color);
+                    break;
+                case "color_desc":
+                    vehicles = vehicles.OrderByDescending(s => s.Color);
+                    break;
                 default:
                     vehicles = vehicles.OrderBy(s => s.RegistrationNumber);
                     break;
             }
-          
+
             return View(await vehicles.AsNoTracking().ToListAsync());
         }
 
@@ -81,28 +101,21 @@ namespace MvcGarage2.Controllers
             }
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
             return View(parkedVehicleCost);
         }
-  
 
-
-
-
-
-
-
-        private double CalculateParkingCost(DateTime startTime)
+        private float CalculateParkingCost(DateTime startTime)
         {
             /* Currently implemented as cost per minute, should maybe charge for each start hour/half hour etc */
             const double pricePerHour = 10.0;
             var pricePerMinute = pricePerHour / 60.0;
             TimeSpan spentTime = DateTime.Now - startTime;
-            return (spentTime.TotalMinutes * pricePerMinute);
+            return (float) (spentTime.TotalMinutes * pricePerMinute);
         }
 
         // GET: ParkedVehicles/Create
-        public IActionResult Create()
+        public IActionResult  Create()
         {
 
             var vehicleParking = new ParkedVehicle();
@@ -123,15 +136,15 @@ namespace MvcGarage2.Controllers
 
                 return View(parkedVehicle);
             }
-           
+
             if (ModelState.IsValid)
             {
                 parkedVehicle.StartTime = DateTime.Now;
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
-                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har parkerats";
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
@@ -173,8 +186,6 @@ namespace MvcGarage2.Controllers
 
             if (ModelState.IsValid)
             {
-
-
                 parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 try
                 {
@@ -192,9 +203,8 @@ namespace MvcGarage2.Controllers
                         throw;
                     }
                 }
-                TempData["AlertMsg"] = $"Fordonet med registreringsnumret {parkedVehicle.RegistrationNumber} har redigerats";
-
-                return RedirectToAction(nameof(Index));
+                // return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = parkedVehicle.Id });
             }
             return View(parkedVehicle);
         }
@@ -215,7 +225,7 @@ namespace MvcGarage2.Controllers
             }
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
             return View(parkedVehicleCost);
         }
 
@@ -232,7 +242,7 @@ namespace MvcGarage2.Controllers
             //return RedirectToAction(nameof(Index));
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = $"{CalculateParkingCost(parkedVehicle.StartTime):C2}";
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
 
             return View("Receipt", parkedVehicleCost); //doesn't currently work while reloading
         }
@@ -242,34 +252,41 @@ namespace MvcGarage2.Controllers
             return _context.ParkedVehicle.Any(e => e.Id == id);
         }
 
-
-
-
-        // Search ##################################################
-        
-        public ActionResult Search()
+        // GET: Search by regnbr
+        public ActionResult Search(string Registreringsnummer)
         {
-            return View();
-        }
+            IEnumerable<ParkedVehicle> parkedVehicleList = null;  // = null;
 
-        [HttpPost]
-        public ActionResult Search([Bind("RegistrationNumber")] ParkedVehicle searchData)
-        {
-            ParkedVehicle vehicle = null;
+            ViewData["Title_Reg"] = "Registreringsnummer";  // Fält- och label-namn
+            ViewData["RegNbr"] = "";  // Ev. indata
 
-            if (!string.IsNullOrEmpty(searchData.RegistrationNumber))
+            if (!string.IsNullOrEmpty(Registreringsnummer))
             {
-                vehicle = _context.ParkedVehicle
-                    .FirstOrDefault(v => v.RegistrationNumber == searchData.RegistrationNumber);
+                VehiclePriceViewModel vehicle = new VehiclePriceViewModel();
+                ParkedVehicle fordon = _context.ParkedVehicle
+                    .FirstOrDefault(v => v.RegistrationNumber == Registreringsnummer);
 
-                if (vehicle != null && vehicle.NumberOfWheels > 0)
+                if (fordon != null)
                 {
-                    // Träff på fordon
-                    searchData = vehicle;
+                    vehicle.ParkedVehicle = fordon;
+                    vehicle.CurrentPrice = CalculateParkingCost(fordon.StartTime);
+
+                    return View("Details", vehicle);
+                }
+                else
+                {
+                    ViewData["RegNbr"] = Registreringsnummer;
+
+                    parkedVehicleList = (from p in _context.ParkedVehicle
+                                             where p.RegistrationNumber.Contains(Registreringsnummer)
+                                             orderby p.RegistrationNumber
+                                             select p);
                 }
             }
 
-            return View(searchData);
+            return View(parkedVehicleList);
         }
+
+
     }
 }

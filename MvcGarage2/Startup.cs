@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace MvcGarage2
 {
@@ -27,11 +28,10 @@ namespace MvcGarage2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<RequestLocalizationOptions>(options =>
+            services.AddLocalization(o =>
             {
-                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("se-SV");
-                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("se-SV"), new CultureInfo("sv-FI") };
-                options.RequestCultureProviders.Clear();
+                // We will put our translations in a folder called Resources
+                o.ResourcesPath = "Resources";
             });
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -45,6 +45,10 @@ namespace MvcGarage2
 
             services.AddDbContext<MvcGarage2Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("MvcGarage2Context")));
+
+            services.AddOptions();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,11 +64,30 @@ namespace MvcGarage2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseStaticFiles();
+            CultureInfo.CurrentUICulture = new CultureInfo("sv-SV", true);
+
+            IList<CultureInfo> supportedCultures = new List<CultureInfo>
+    {
+        
+        new CultureInfo("fi-FI"),
+         new CultureInfo("sv-SV"),
+         new CultureInfo("en-US")
+    };
+            //app.UseRequestLocalization(new RequestLocalizationOptions
+            //{
+            //    DefaultRequestCulture = new RequestCulture("en-GB"),
+            //    SupportedCultures = supportedCultures,
+            //    SupportedUICultures = supportedCultures
+            //});
+    
+       
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRequestLocalization();
             app.UseCookiePolicy();
+            
 
             app.UseMvc(routes =>
             {

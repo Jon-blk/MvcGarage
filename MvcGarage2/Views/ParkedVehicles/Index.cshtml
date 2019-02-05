@@ -9,56 +9,85 @@
 <p>
     <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["RegSortParm"]">@Html.DisplayNameFor(model => model.RegistrationNumber)</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleModel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
-                    <a asp-action="Delete" asp-route-id="@item.Id">
-                        <input type="button" value="Avsluta parkering" class="btn btn-danger" /></a>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        <input type="button" value="Detaljer" class="btn btn-info" /></a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">
-                        <input type="button" value="Redigera" class="btn btn-secondary" /></a>
-                </div>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="visible-md visible-lg">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["RegSortParm"]">@Html.DisplayNameFor(model => model.RegistrationNumber)</a>
+                </th>
+
+
+                @*<th>
+                        @Html.DisplayNameFor(model => model.RegistrationNumber)
+                    </th>*@
+                <th >
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["BrandSortParam"]">@Html.DisplayNameFor(model => model.Brand)</a>
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Brand)
+                    </th>*@
+                <th class="d-none d-md-block">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["VehicleModelSortParam"]">@Html.DisplayNameFor(model => model.VehicleModel)</a>
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.VehicleModel)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.NumberOfWheels)
+                    </th>*@
+                <th class="d-none d-md-block">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.StartTime)</a>
+                </th>
+
+
+                @*<th>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.VehicleType)
+                    </th>*@
+                <th class="d-none d-md-block">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["ColorSortParam"]">@Html.DisplayNameFor(model => model.Color)</a>
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="visible-md visible-lg">
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td>
+                <td class="visible-md visible-lg">
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.VehicleModel)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td class="d-none d-md-block">
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                
+                    <partial name="_ActionButtons" model=" item.Id" />
+
+                    @*<div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id" role="button">Avsluta parkering</a>
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id" role="button">Detaljer</a>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id" role="button">Redigera</a>
+            </div>*@
+               
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
