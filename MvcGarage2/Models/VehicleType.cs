@@ -9,6 +9,7 @@ namespace MvcGarage2.Models
     public class VehicleType
     {
         public int Id { get; set; }
+        [Display(Name = "Fordonstyp")]
         public string Type { get; set; }
 
         public float ParkingPrice { get; set; }
