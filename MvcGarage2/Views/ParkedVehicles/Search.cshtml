@@ -12,11 +12,13 @@
 
     <form asp-action="Search" method="get">
         <div class="row">
-            <span class="col-sm-5">
-                <label class="control-label">@ViewData["Title_Reg"]</label>
-                <input name="@ViewData["Title_Reg"]" class="form-control" value="@ViewData["RegNbr"]" />
+            <span class="col-sm-2">
+                <label for="@ViewData["Title_Reg"]" class="control-label">@ViewData["Title_Reg"]</label>
+                <input id="@ViewData["Title_Reg"]" name="@ViewData["Title_Reg"]" class="form-control" value="@ViewData["RegNbr"]" />
+
+                @*<input id="@ViewData["Title_Reg"]" name="@ViewData["Title_Reg"]" class="form-control" value="@ViewBag.RegNbr" />*@
             </span>
-            <span class="col-sm-2 text-right">
+            <span class="col-sm-2">
                 <input type="submit" value="Sök fordon" class="btn btn-primary" style="bottom: 0; position: absolute;" />
             </span>
             <div class="col-sm-12">
