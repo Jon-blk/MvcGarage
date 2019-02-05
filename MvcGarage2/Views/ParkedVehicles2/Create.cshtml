@@ -1,12 +1,12 @@
 ﻿@model MvcGarage2.Models.ParkedVehicle
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Parkera";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
-<h4>ParkedVehicle</h4>
+<h4>Fordon</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,31 +33,28 @@
                 <span asp-validation-for="NumberOfWheels" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartTime" class="control-label"></label>
-                <input asp-for="StartTime" class="form-control" />
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
                 <select asp-for="Color" class="form-control" asp-items="Html.GetEnumSelectList<VehicleColor>()"></select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MemberId" class="control-label"></label>
-                <select asp-for="MemberId" class ="form-control" asp-items="ViewBag.MemberId"></select>
+                <label asp-for="Member.Name" class="control-label"></label>
+                <select asp-for="MemberId" class="form-control" asp-items="ViewBag.MemberId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="VehicleTypeId" class="control-label"></label>
-                <select asp-for="VehicleTypeId" class ="form-control" asp-items="ViewBag.VehicleTypeId"></select>
+                <label asp-for="VehicleType.Type" class="control-label"></label>
+                <select asp-for="VehicleTypeId" class="form-control" asp-items="ViewBag.VehicleTypeId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Inled parkering" class="btn btn-primary btn-lg" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<partial name="_BackToIndexPartial" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
