@@ -1,18 +1,17 @@
 ﻿@model MvcGarage2.Models.ParkedVehicle
 
 @{
-    ViewData["Title"] = "Redigera uppgifter";
+    ViewData["Title"] = "Create";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Create</h1>
 
-<h4>för parkerat fordon</h4>
+<h4>ParkedVehicle</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="RegistrationNumber" class="control-label"></label>
                 <input asp-for="RegistrationNumber" class="form-control" />
@@ -39,26 +38,26 @@
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VehicleType" class="control-label"></label>
-                @*<select asp-for="VehicleType" class="form-control" asp-items="Html.GetEnumSelectList<VehicleType>()"></select>*@
-                <span asp-validation-for="VehicleType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
                 <select asp-for="Color" class="form-control" asp-items="Html.GetEnumSelectList<VehicleColor>()"></select>
+                <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Spara ändringar" class="btn btn-primary" />
-                <a asp-action="Index">
-                    <input type="button" value="Avbryt" class="btn btn-secondary" />
-                </a>
+                <label asp-for="MemberId" class="control-label"></label>
+                <select asp-for="MemberId" class ="form-control" asp-items="ViewBag.MemberId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleTypeId" class="control-label"></label>
+                <select asp-for="VehicleTypeId" class ="form-control" asp-items="ViewBag.VehicleTypeId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-@*<partial name="_BackToIndexPartial" />*@
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

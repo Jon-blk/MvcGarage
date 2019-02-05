@@ -31,12 +31,14 @@ namespace MvcGarage2.Models
         [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 
+        public int VehicleTypeId { get; set; }
         [Display(Name = "Fordonstyp")]
-        [EnumDataType(typeof(VehicleType))]
         public VehicleType VehicleType { get; set; }
 
         [Display(Name = "Färg")]
-        [EnumDataType(typeof(VehicleColor))]
         public VehicleColor Color { get; set; }
+
+        public int MemberId { get; set; }
+        public Member Member { get; set; }
     }
 }

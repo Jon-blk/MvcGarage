@@ -65,14 +65,14 @@ namespace MvcGarage2
                 app.UseHsts();
             }
             app.UseStaticFiles();
-            CultureInfo.CurrentUICulture = new CultureInfo("sv-SV", true);
+            CultureInfo.CurrentUICulture = new CultureInfo("sv-se", true);
 
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
     {
         
-        new CultureInfo("fi-FI"),
-         new CultureInfo("sv-SV"),
-         new CultureInfo("en-US")
+        new CultureInfo("sv-fi"),
+         new CultureInfo("sv-se"),
+         new CultureInfo("en-us")
     };
             //app.UseRequestLocalization(new RequestLocalizationOptions
             //{

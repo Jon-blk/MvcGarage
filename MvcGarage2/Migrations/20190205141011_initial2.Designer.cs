@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MvcGarage2.Models;
 
 namespace MvcGarage2.Migrations
 {
     [DbContext(typeof(MvcGarage2Context))]
-    partial class MvcGarage2ContextModelSnapshot : ModelSnapshot
+    [Migration("20190205141011_initial2")]
+    partial class initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +83,7 @@ namespace MvcGarage2.Migrations
 
             modelBuilder.Entity("MvcGarage2.Models.ParkedVehicle", b =>
                 {
-                    b.HasOne("MvcGarage2.Models.Member", "Member")
+                    b.HasOne("MvcGarage2.Models.Member")
                         .WithMany("ParkedVehicles")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade);
