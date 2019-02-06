@@ -14,6 +14,7 @@ namespace MvcGarage2.Models
         public string Name { get; set; }
 
         //nav collection
+        [Display(Name="Parkerade fordon")]
         public ICollection<ParkedVehicle> ParkedVehicles { get; set; }
     }
 }
