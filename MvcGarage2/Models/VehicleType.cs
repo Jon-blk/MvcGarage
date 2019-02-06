@@ -10,8 +10,10 @@ namespace MvcGarage2.Models
     {
         public int Id { get; set; }
         [Display(Name = "Fordonstyp")]
+        [Required]
         public string Type { get; set; }
 
+        [Required]
         public float ParkingPrice { get; set; }
 
         //nav collection
