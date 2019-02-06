@@ -39,17 +39,17 @@ namespace MvcGarage2.Data
                 }
                 context.Member.AddRange(members);
 
-                var vehicleTypes = new List<VehicleType>();
-                for (int i = 0; i < 5; i++)
+                var vehicleTypes = new List<VehicleType>
                 {
-                    var vehicleType = new VehicleType
-                    {
-                        Type = Faker.Company.BS(),
-                        ParkingPrice=Faker.RandomNumber.Next(5)
+                  new VehicleType("Bil",10f),
+                new VehicleType("Motorcyke",7f),
+                     new VehicleType("Lastbil",15f),
+                          new VehicleType("Cykel",2f)
 
-                    };
-                    vehicleTypes.Add(vehicleType);
-                }
+
+
+
+                };
                 context.VehicleType.AddRange(vehicleTypes);
                 context.SaveChanges();
 
@@ -67,10 +67,10 @@ namespace MvcGarage2.Data
                                 VehicleType = vehicleType,
                                 Brand=Faker.Company.Name(),
                                 VehicleModel=Faker.Name.First(),
-                                Color=(VehicleColor) 4,
-                                StartTime=DateTime.Now,
-                                RegistrationNumber=Faker.Name.First()+Faker.RandomNumber.Next(5).ToString()
-
+                                Color=(VehicleColor)Faker.RandomNumber.Next(15),
+                                StartTime =DateTime.Now,
+                                RegistrationNumber=Faker.Name.First().ToUpper().Substring(0,3)+Faker.RandomNumber.Next(999).ToString(),
+                                NumberOfWheels= Faker.RandomNumber.Next(6)
                             };
                             parkedVehicles.Add(parkedVehicle);
                         

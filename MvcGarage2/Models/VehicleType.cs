@@ -8,6 +8,12 @@ namespace MvcGarage2.Models
 {
     public class VehicleType
     {
+        public VehicleType( string type, float parkingPrice)
+        {
+       
+            Type = type;
+            ParkingPrice = parkingPrice;
+        }
         public int Id { get; set; }
         [Display(Name = "Fordonstyp")]
         [Required]
