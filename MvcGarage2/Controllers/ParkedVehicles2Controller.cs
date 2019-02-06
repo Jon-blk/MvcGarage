@@ -134,6 +134,7 @@ namespace MvcGarage2.Controllers
             {
                 try
                 {
+                    parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                     _context.Update(parkedVehicle);
                     await _context.SaveChangesAsync();
                 }
