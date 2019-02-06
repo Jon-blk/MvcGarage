@@ -22,6 +22,8 @@ namespace MvcGarage2.Controllers
         public async Task<IActionResult> Index()
         {
             var mvcGarage2Context = _context.ParkedVehicle.Include(p => p.VehicleType).Include(p => p.Member);
+
+
             return View(await mvcGarage2Context.ToListAsync());
         }
 
@@ -41,8 +43,16 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Cost"] = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
             return View(parkedVehicle);
+        }
+
+        private float CalculateParkingCost(DateTime startTime, float pricePerHour)
+        {
+            /* Currently implemented as cost per minute, should maybe charge for each start hour/half hour etc */
+            var pricePerMinute = pricePerHour / 60.0;
+            TimeSpan spentTime = DateTime.Now - startTime;
+            return (float)(spentTime.TotalMinutes * pricePerMinute);
         }
 
         // GET: ParkedVehicles2/Create
@@ -58,15 +68,26 @@ namespace MvcGarage2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegistrationNumber,Brand,VehicleModel,NumberOfWheels,StartTime,Color,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> Create([Bind("RegistrationNumber,Brand,VehicleModel,NumberOfWheels,StartTime,Color,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
         {
+            if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
+            {
+                //return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
+                ModelState.AddModelError("RegistrationNumber", "Detta fordon är redan parkerat!");
+
+                return View(parkedVehicle);
+            }
+
             if (ModelState.IsValid)
             {
+                parkedVehicle.StartTime = DateTime.Now;
+                parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
                 _context.Add(parkedVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Id", parkedVehicle.VehicleTypeId);
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
             return View(parkedVehicle);
         }
 
@@ -83,7 +104,8 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Id", parkedVehicle.VehicleTypeId);
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
             return View(parkedVehicle);
         }
 
@@ -98,11 +120,22 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
+            // assumption: You can edit the registratration number (but not to something that already exists)
+            if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper() && v.Id != parkedVehicle.Id))
+            {
+                ModelState.AddModelError("RegistrationNumber", "Detta fordon finns redan på en annan plats!");
+                ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+                ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
+
+                return View(parkedVehicle); //TODO: error, edited reg-number to existing! 
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
+                    parkedVehicle.StartTime = DateTime.Now < parkedVehicle.StartTime ? DateTime.Now : parkedVehicle.StartTime ; //don't allow setting future startdate
                     _context.Update(parkedVehicle);
                     await _context.SaveChangesAsync();
                 }
@@ -119,7 +152,9 @@ namespace MvcGarage2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Id", parkedVehicle.VehicleTypeId);
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
+
             return View(parkedVehicle);
         }
 

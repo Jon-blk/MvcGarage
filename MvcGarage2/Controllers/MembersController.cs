@@ -21,7 +21,23 @@ namespace MvcGarage2.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Member.ToListAsync());
+            return View(await _context.Member.Include(p => p.ParkedVehicles).ToListAsync());
+        }
+
+        // POST: Members (Name search)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(string searchString)
+        {
+            var query = _context.Member
+                              .Include(p => p.ParkedVehicles)
+                              .Select(p => p);
+            if(!String.IsNullOrWhiteSpace(searchString))
+            {
+                query = query
+                    .Where(m => m.Name.Contains(searchString));
+            }
+            return View(await query.ToListAsync());
         }
 
         // GET: Members/Details/5
@@ -33,6 +49,7 @@ namespace MvcGarage2.Controllers
             }
 
             var member = await _context.Member
+                .Include(p => p.ParkedVehicles)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
