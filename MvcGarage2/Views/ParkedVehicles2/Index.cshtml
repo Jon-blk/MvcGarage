@@ -62,7 +62,9 @@
                         @Html.DisplayFor(modelItem => item.VehicleModel)
                     </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.Member.Name)
+                    <a asp-controller="Members" asp-action="Details" asp-route-id="@item.MemberId">
+                        @Html.DisplayFor(modelItem => item.Member.Name)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartTime)

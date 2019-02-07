@@ -62,7 +62,9 @@
             @Html.DisplayNameFor(model => model.Member.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Member.Name)
+            <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.MemberId">
+                @Html.DisplayFor(model => model.Member.Name)
+            </a>
         </dd>
     </dl>
 </div>
