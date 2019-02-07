@@ -19,12 +19,36 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: ParkedVehicles2
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string VehicleType, string regNbr)
         {
-            var mvcGarage2Context = _context.ParkedVehicle.Include(p => p.VehicleType).Include(p => p.Member);
+            ParkedVehicleViewModel parkedVehicleViewModel = new ParkedVehicleViewModel();
 
+            var mvcGarage2Context = await _context.ParkedVehicle.Include(p => p.VehicleType).Include(p => p.Member).ToListAsync() ;
 
-            return View(await mvcGarage2Context.ToListAsync());
+            // Filtrera på fordonstyp
+            if (!string.IsNullOrEmpty(VehicleType))
+            {
+                mvcGarage2Context = mvcGarage2Context
+                    .Where(v => v.VehicleType.Type == VehicleType)
+                    .ToList();
+            }
+
+            // Filtrera på registreringsnummer
+            if (!string.IsNullOrEmpty(regNbr))
+            {
+                mvcGarage2Context = mvcGarage2Context.Where(p => p.RegistrationNumber.Contains(regNbr.ToUpper())).ToList();
+            }
+
+            parkedVehicleViewModel.ParkedVehicle = mvcGarage2Context;
+
+            // Lista fordonstyper
+            IEnumerable<string> vehicleTypes = from v in _context.VehicleType
+                                               orderby v.Type
+                                               select v.Type;
+
+            parkedVehicleViewModel.VehicleTypes = new SelectList(vehicleTypes.Distinct());
+
+            return View(parkedVehicleViewModel);
         }
 
         // GET: ParkedVehicles2/Details/5
