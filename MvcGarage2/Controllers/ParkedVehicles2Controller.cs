@@ -83,7 +83,7 @@ namespace MvcGarage2.Controllers
         public IActionResult Create()
         {
             ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type");
-            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>().OrderBy(m => m.Name) , "Id", "Name");
             return View();
         }
 

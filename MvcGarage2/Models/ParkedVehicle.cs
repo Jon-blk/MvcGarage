@@ -28,6 +28,7 @@ namespace MvcGarage2.Models
         public int NumberOfWheels { get; set; }
 
         [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd hh:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "Ankomsttid")]
         public DateTime StartTime { get; set; }
 

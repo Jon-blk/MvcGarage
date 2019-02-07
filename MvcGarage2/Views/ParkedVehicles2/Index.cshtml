@@ -12,12 +12,19 @@
 
 <h5>Filtera parkerade fordon</h5>
 <form asp-controller="ParkedVehicles2Controller" asp-action="Index" method="get">
-    <select asp-for="VehicleType" asp-items="Model.VehicleTypes">
-        <option value="">All</option>
-    </select>
-
-    Title: <input type="text" asp-for="RegNbr" />
-    <input type="submit" value="Filter" />
+    <p>
+        <label for="VehicleType">Fordonstyp</label><br />
+        <select asp-for="VehicleType" asp-items="Model.VehicleTypes">
+            <option value="">Alla</option>
+        </select>
+    </p>
+    <p>
+        <label for="VehicleType">Registreringsnummer</label><br />
+        <input type="text" asp-for="RegNbr" />
+    </p>
+    <p>
+        <input type="submit" value="Filtrera" />
+    </p>
 </form>
 <br />
 
