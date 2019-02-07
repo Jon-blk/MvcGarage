@@ -3,26 +3,64 @@
 @{
     ViewData["Title"] = "Medlemmar";
 }
+@section scripts{
+    <script src="~/lib/jquery-unobtrusive-ajax/jquery.unobtrusive-ajax.js"></script>
+}
 
 <h1>@ViewData["Title"]</h1>
 
-<form asp-action="Index" method="post">
-    <div class="row">
+@*Old-school post search form below*@
+@*<form asp-action="Index" method="post">
+        <div class="row">
 
+            <div class="col-sm-4 form-group">
+                <input type="text" name="searchString" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Name)">
+            </div>
+            <div class="col-sm-2 form-group">
+                <input type="submit" value="Sök" class="btn btn-outline-success" />
+            </div>
+
+            <div class="col-sm-6">
+                <a asp-action="Create"><input value="Skapa ny medlem" class="btn btn-primary" /></a>
+            </div>
+        </div>
+    </form>*@
+<br />
+<form asp-controller="Member" asp-action="Index"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-update="#contentid"
+      data-ajax-loading="#divloading"
+      data-ajax-success="Success"
+      data-ajax-failure="Failure">
+    <div class="row">
         <div class="col-sm-4 form-group">
-            <input type="text" name="searchString" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Name)">
+            <div>  @Html.TextBox("searchString", "", htmlAttributes: new { @class = "form-control", id = "searchString", @placeholder = "Namn" })</div>
         </div>
         <div class="col-sm-2 form-group">
             <input type="submit" value="Sök" class="btn btn-outline-success" />
+            <div class="text-success" role="status" id="divloader" style="display:none">
+                Söker...
+            </div>
         </div>
 
         <div class="col-sm-6">
             <a asp-action="Create"><input value="Skapa ny medlem" class="btn btn-primary" /></a>
         </div>
     </div>
+    <div class="row">
+        <div class="text-success col-sm-2" role="status" id="divloader" style="display:none">
+            Söker...
+        </div>
+    </div>
+    <br />
 </form>
-<br />
-
+<script>
+    function Success(resultTable) {
+        document.getElementById("searchString").textContent = "";
+    }
+</script>
 <table class="table">
     <thead>
         <tr>
@@ -38,26 +76,8 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ParkedVehicles.Count)
-                </td>
-                <td>
-                    <partial name="_MemberActionButtons" model=" item.Id" />
-                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                </td>
-            </tr>
-        }
+    <tbody class="content" id="contentid">
+        <partial name="_MembersPartial" />
+
     </tbody>
 </table>
