@@ -67,8 +67,10 @@ namespace MvcGarage2.Controllers
             {
                 return NotFound();
             }
-            ViewData["Cost"] = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
-            return View(parkedVehicle);
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
+            return View(parkedVehicleCost);
         }
 
         private float CalculateParkingCost(DateTime startTime, float pricePerHour)
@@ -192,13 +194,17 @@ namespace MvcGarage2.Controllers
 
             var parkedVehicle = await _context.ParkedVehicle
                 .Include(p => p.VehicleType)
+                .Include(p => p.Member)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (parkedVehicle == null)
             {
                 return NotFound();
             }
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
 
-            return View(parkedVehicle);
+            return View(parkedVehicleCost);
         }
 
         // POST: ParkedVehicles2/Delete/5

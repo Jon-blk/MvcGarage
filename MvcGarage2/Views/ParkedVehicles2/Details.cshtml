@@ -1,4 +1,4 @@
-﻿@model MvcGarage2.Models.ParkedVehicle
+﻿@model MvcGarage2.Models.VehiclePriceViewModel
 
 @{
     ViewData["Title"] = "Detaljer";
@@ -9,71 +9,14 @@
 <div>
     <h4>Parkering</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.RegistrationNumber)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Brand)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Brand)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.VehicleModel)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.VehicleModel)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.NumberOfWheels)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.NumberOfWheels)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
-        <dt class="col-sm-3">
-            Kostnad
-        </dt>
-        <dd class="col-sm-9">
-            @ViewData["Cost"] kr
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.VehicleType.Type)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class="col-sm-9">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt class="col-sm-3">
-            @Html.DisplayNameFor(model => model.Member.Name)
-        </dt>
-        <dd class="col-sm-9">
-            <a asp-controller="Members" asp-action="Details" asp-route-id="@Model.MemberId">
-                @Html.DisplayFor(model => model.Member.Name)
-            </a>
-        </dd>
-    </dl>
+    <partial name="_DetailsPartial" />
 </div>
 
 <div>
-    <a asp-action="Delete" asp-route-id="@Model.Id">
+    <a asp-action="Delete" asp-route-id="@Model.ParkedVehicle.Id">
         <input type="submit" value="Avsluta Parkering" class="btn btn-danger" />
     </a>
-    <a class="btn btn-secondary" asp-action="Edit" role="button" asp-route-id="@Model.Id">Redigera</a>
+    <a class="btn btn-secondary" asp-action="Edit" role="button" asp-route-id="@Model.ParkedVehicle.Id">Redigera</a>
 </div>
 <partial name="_BackToIndexPartial" />
 
