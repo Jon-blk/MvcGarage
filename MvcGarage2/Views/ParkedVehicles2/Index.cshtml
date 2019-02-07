@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MvcGarage2.Models.ParkedVehicle>
+﻿@model MvcGarage2.Models.ParkedVehicleViewModel
 
 @{
     ViewData["Title"] = "Start";
@@ -9,64 +9,88 @@
 <p>
     <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
+
+<h5>Filtera parkerade fordon</h5>
+
+    <form asp-controller="ParkedVehicles2Controller" asp-action="Index" method="get">
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <select asp-for="VehicleType" asp-items="Model.VehicleTypes" class="form-control">
+                    <option value="">Alla</option>
+                </select>
+            </div>
+            <div class="col-sm-4 form-group">
+                <input type="text" asp-for="RegNbr" class="form-control" placeholder="Registreringsnummer" />
+            </div>
+            <div class="col-sm-4 form-group">
+                <input type="submit" value="Filtrera" class="btn btn-outline-success" />
+            </div>
+        </div>
+</form>
+
+<br />
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RegistrationNumber)
+                @Html.DisplayNameFor(model => model.ParkedVehicle[0].RegistrationNumber)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Brand)
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VehicleModel)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedVehicle[0].Member.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VehicleModel)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Member.Name)
+                @Html.DisplayNameFor(model => model.ParkedVehicle[0].StartTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VehicleType.Type)
+                @Html.DisplayNameFor(model => model.ParkedVehicle[0].VehicleType)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Color)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationNumber)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleModel)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Member.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleType.Type)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>*@
-            <td>
-                <partial name="_ActionButtons" model=" item.Id" />
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.ParkedVehicle)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationNumber)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehicleModel)
+                    </td>*@
+                <td>
+                   
+                        @Html.DisplayFor(modelItem => item.Member.Name)
+                   
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleType.Type)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Color)
+                    </td>*@
+                <td>
+                    <partial name="_ActionButtons" model=" item.Id" />
+                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
