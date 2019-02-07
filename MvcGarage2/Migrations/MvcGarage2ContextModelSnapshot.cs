@@ -25,7 +25,8 @@ namespace MvcGarage2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -72,7 +73,8 @@ namespace MvcGarage2.Migrations
 
                     b.Property<float>("ParkingPrice");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
