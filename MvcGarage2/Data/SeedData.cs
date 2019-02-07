@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using MvcGarage2.Data.Helper;
 using MvcGarage2.Models;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace MvcGarage2.Data
             var options = serviceProvider.GetRequiredService<DbContextOptions<MvcGarage2Context>>();
             using (var context = new MvcGarage2Context(options))
             {
-                if (context.ParkedVehicle.Any())
+                if (context.Member.Any())
                 {
                     context.Member.RemoveRange(context.Member);
                     context.ParkedVehicle.RemoveRange(context.ParkedVehicle);
@@ -27,7 +28,7 @@ namespace MvcGarage2.Data
 
                 // Let's seed!
                 var members = new List<Member>();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     string name = Faker.Name.FullName();
                     var member = new Member
@@ -56,6 +57,8 @@ namespace MvcGarage2.Data
                 var parkedVehicles = new List<ParkedVehicle>();
                 foreach (var person in members)
                 {
+                    int f = Faker.RandomNumber.Next(200);
+                    var rand = Enum.GetValues(typeof(Brands)).GetValue(f).ToString();
                     foreach (var vehicleType in vehicleTypes)
                     {
                       
@@ -65,8 +68,8 @@ namespace MvcGarage2.Data
                                 VehicleTypeId=vehicleType.Id,
                                 Member = person,
                                 VehicleType = vehicleType,
-                                Brand=Faker.Company.Name(),
-                                VehicleModel=Faker.Name.First(),
+                                Brand=Enum.GetValues(typeof(Brands)).GetValue(Faker.RandomNumber.Next(100)).ToString(),
+                                VehicleModel =Faker.Name.First(),
                                 Color=(VehicleColor)Faker.RandomNumber.Next(15),
                                 StartTime =DateTime.Now,
                                 RegistrationNumber=Faker.Name.First().ToUpper().Substring(0,3)+Faker.RandomNumber.Next(999).ToString(),
