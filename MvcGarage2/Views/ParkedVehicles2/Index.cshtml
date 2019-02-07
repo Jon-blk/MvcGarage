@@ -11,14 +11,23 @@
 </p>
 
 <h5>Filtera parkerade fordon</h5>
-<form asp-controller="ParkedVehicles2Controller" asp-action="Index" method="get">
-    <select asp-for="VehicleType" asp-items="Model.VehicleTypes">
-        <option value="">All</option>
-    </select>
 
-    Title: <input type="text" asp-for="RegNbr" />
-    <input type="submit" value="Filter" />
+    <form asp-controller="ParkedVehicles2Controller" asp-action="Index" method="get">
+        <div class="row">
+            <div class="col-sm-4 form-group">
+                <select asp-for="VehicleType" asp-items="Model.VehicleTypes" class="form-control">
+                    <option value="">Alla</option>
+                </select>
+            </div>
+            <div class="col-sm-4 form-group">
+                <input type="text" asp-for="RegNbr" class="form-control" placeholder="Registreringsnummer" />
+            </div>
+            <div class="col-sm-4 form-group">
+                <input type="submit" value="Filtrera" class="btn btn-outline-success" />
+            </div>
+        </div>
 </form>
+
 <br />
 
 <table class="table">
@@ -62,9 +71,9 @@
                         @Html.DisplayFor(modelItem => item.VehicleModel)
                     </td>*@
                 <td>
-                    <a asp-controller="Members" asp-action="Details" asp-route-id="@item.MemberId">
+                   
                         @Html.DisplayFor(modelItem => item.Member.Name)
-                    </a>
+                   
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartTime)
