@@ -6,20 +6,31 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>Vill du avsluta parkering och skriva ut kvitto?</h3>
-<h4>Varning - går inte att ångra!</h4>
-<div>
-    <hr />
-    <partial name="_DetailsPartial" />
-    <div class="form-group">
-        <form asp-action="Delete">
-            <input type="hidden" asp-for="ParkedVehicle.Id" />
-            <input type="submit" value="Bekräfta avsluta" class="btn btn-danger" />
+@if (Model.ParkedVehicle != null)
+{
+    <h3>Vill du avsluta parkering och skriva ut kvitto?</h3>
+    <h4 class="text-danger font-italic">Varning - går inte att ångra!</h4>
+    <div>
+        <hr />
+        <partial name="_DetailsPartial" />
+        <div class="form-group">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="ParkedVehicle.Id" />
+                <input type="submit" value="Bekräfta avsluta" class="btn btn-danger" />
 
-            <a asp-action="Index">
-                <input type="button" value="Avbryt" class="btn btn-secondary" />
-            </a>
-        </form>
+                <a asp-action="Index">
+                    <input type="button" value="Avbryt" class="btn btn-secondary" />
+                </a>
+            </form>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <h3>@TempData["Text"]</h3>
+    <br />
+    <br />
+    <partial name="_BackToIndexPartial" />
+}
+
 @*<partial name="_BackToIndexPartial" />*@
