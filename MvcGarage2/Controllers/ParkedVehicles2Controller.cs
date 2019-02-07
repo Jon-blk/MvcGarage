@@ -36,7 +36,9 @@ namespace MvcGarage2.Controllers
             // Filtrera på registreringsnummer
             if (!string.IsNullOrEmpty(regNbr))
             {
-                mvcGarage2Context = mvcGarage2Context.Where(p => p.RegistrationNumber.Contains(regNbr.ToUpper())).ToList();
+                //regNbr = regNbr.Trim().ToUpper();
+                //parkedVehicleViewModel.RegNbr = regNbr;
+                mvcGarage2Context = mvcGarage2Context.Where(p => p.RegistrationNumber.Contains(regNbr.Trim().ToUpper())).ToList();
             }
 
             parkedVehicleViewModel.ParkedVehicle = mvcGarage2Context;
@@ -84,7 +86,7 @@ namespace MvcGarage2.Controllers
         // GET: ParkedVehicles2/Create
         public IActionResult Create()
         {
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type");
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>().OrderBy(v => v.Type) , "Id", "Type");
             ViewData["MemberId"] = new SelectList(_context.Set<Member>().OrderBy(m => m.Name) , "Id", "Name");
             return View();
         }
@@ -100,7 +102,6 @@ namespace MvcGarage2.Controllers
             {
                 //return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
                 ModelState.AddModelError("RegistrationNumber", "Detta fordon är redan parkerat!");
-
                 return View(parkedVehicle);
             }
 
@@ -196,10 +197,6 @@ namespace MvcGarage2.Controllers
                 .Include(p => p.VehicleType)
                 .Include(p => p.Member)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            //if (parkedVehicle == null)
-            //{
-            //    return NotFound();
-            //}
 
             var parkedVehicleCost = new VehiclePriceViewModel();
 
