@@ -37,7 +37,25 @@ namespace MvcGarage2.Controllers
                 query = query
                     .Where(m => m.Name.Contains(searchString));
             }
-            return View(await query.ToListAsync());
+            return PartialView("_MembersPartial", await query.ToListAsync());
+            //return View(await query.ToListAsync());
+        }
+
+        // POST: Ajax search
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AjaxSearch(string searchString)
+        {
+            var query = _context.Member
+                              .Include(p => p.ParkedVehicles)
+                              .Select(p => p);
+            if (!String.IsNullOrWhiteSpace(searchString))
+            {
+                query = query
+                    .Where(m => m.Name.Contains(searchString));
+            }
+            //return View(await query.ToListAsync());
+            return PartialView("_MembersPartial", await query.ToListAsync());
         }
 
         // GET: Members/Details/5
