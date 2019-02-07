@@ -19,7 +19,7 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: ParkedVehicles2
-        public async Task<IActionResult> Index(string VehicleType, string regNbr)
+        public async Task<IActionResult> Index(string VehicleType, string regNbr,string sortOrder)
         {
             ParkedVehicleViewModel parkedVehicleViewModel = new ParkedVehicleViewModel();
 
@@ -47,7 +47,7 @@ namespace MvcGarage2.Controllers
                                                select v.Type;
 
             parkedVehicleViewModel.VehicleTypes = new SelectList(vehicleTypes.Distinct());
-
+   
             return View(parkedVehicleViewModel);
         }
 
@@ -203,7 +203,7 @@ namespace MvcGarage2.Controllers
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
             parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
-
+            parkedVehicleCost.Member = parkedVehicle.Member;
             return View(parkedVehicleCost);
         }
 
@@ -212,10 +212,31 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
-            _context.ParkedVehicle.Remove(parkedVehicle);
+            var parkedVehicle = await _context.ParkedVehicle
+               .Include(p => p.VehicleType)
+               .Include(p => p.Member)
+               .FirstOrDefaultAsync(m => m.Id == id);
+            if (parkedVehicle == null)
+            {
+                return NotFound();
+            }
+           
+
+            var parkedVehicledel = await _context.ParkedVehicle.FindAsync(id);
+            _context.ParkedVehicle.Remove(parkedVehicledel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+
+            //return RedirectToAction(nameof(Index));
+            var price = parkedVehicle.VehicleType.ParkingPrice;
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, price);
+            parkedVehicleCost.Member = parkedVehicle.Member;
+
+            return View("Receipt", parkedVehicleCost);
+
+
         }
 
         private bool ParkedVehicleExists(int id)

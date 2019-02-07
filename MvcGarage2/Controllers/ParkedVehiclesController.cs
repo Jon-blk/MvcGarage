@@ -243,6 +243,7 @@ namespace MvcGarage2.Controllers
             var parkedVehicleCost = new VehiclePriceViewModel();
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
             parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime);
+            parkedVehicleCost.Member = parkedVehicle.Member;
 
             return View("Receipt", parkedVehicleCost); //doesn't currently work while reloading
         }
@@ -288,5 +289,7 @@ namespace MvcGarage2.Controllers
         }
 
 
+
     }
+    
 }

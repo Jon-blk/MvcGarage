@@ -1,0 +1,31 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+  }
+
+@using (Html.BeginForm("SubmitAction", "HtmlToPdfConverter", FormMethod.Post))
+{
+    <article class="post type-post status-publish format-standard hentry">
+        <header class="entry-header">
+            <h1 class="entry-title">SelectPdf Free Html To Pdf Converter - Getting Started with Html to Pdf Converter - C# / ASP.NET MVC Sample</h1>
+        </header>
+        <!-- .entry-header -->
+
+        <div class="entry-content">
+            <p>
+                This sample shows the simplest code that can be used to convert an url to pdf using SelectPdf Pdf Library for .NET.
+            </p>
+            <p>
+                Url:<br />
+                <input type="text" style="width: 90%;" value="http://selectpdf.com" name="TxtUrl" />
+                <br />
+                <br />
+                <input type="submit" name="BtnConvert" value="Create PDF" class="mybutton" />
+            </p>
+        </div>
+        <!-- .entry-content -->
+    </article>
+    <!-- #post -->
+}
