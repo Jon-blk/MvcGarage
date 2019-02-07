@@ -196,13 +196,23 @@ namespace MvcGarage2.Controllers
                 .Include(p => p.VehicleType)
                 .Include(p => p.Member)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (parkedVehicle == null)
-            {
-                return NotFound();
-            }
+            //if (parkedVehicle == null)
+            //{
+            //    return NotFound();
+            //}
+
             var parkedVehicleCost = new VehiclePriceViewModel();
-            parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
+
+            if (parkedVehicle != null)
+            {
+                ViewData["Title"] = "Checkar ut fordonet";
+                parkedVehicleCost.ParkedVehicle = parkedVehicle;
+                parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
+            }
+            else
+            {
+                TempData["Text"] = "Hittar inte fordonet - är det redan utcheckat?";
+            }
 
             return View(parkedVehicleCost);
         }
