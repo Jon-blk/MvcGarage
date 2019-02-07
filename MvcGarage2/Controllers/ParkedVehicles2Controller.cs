@@ -219,10 +219,25 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var parkedVehicle = await _context.ParkedVehicle.FindAsync(id);
-            _context.ParkedVehicle.Remove(parkedVehicle);
+            var parkedVehicle = await _context.ParkedVehicle
+              .Include(p => p.VehicleType)
+              .Include(p => p.Member)
+              .FirstOrDefaultAsync(m => m.Id == id);
+
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            var parkedVehicleDel = await _context.ParkedVehicle.FindAsync(id);
+            _context.ParkedVehicle.Remove(parkedVehicleDel);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+          
+            parkedVehicleCost.ParkedVehicle = parkedVehicle;
+            var price = parkedVehicle.VehicleType.ParkingPrice;
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime,price);
+            parkedVehicleCost.Member = parkedVehicle.Member;
+            var timeSpan= DateTime.Now - parkedVehicle.StartTime;
+            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c");
+            return View("Receipt", parkedVehicleCost); 
+       
         }
 
         private bool ParkedVehicleExists(int id)
