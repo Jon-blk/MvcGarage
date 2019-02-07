@@ -14,8 +14,8 @@ namespace MvcGarage2.Models
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+      //  protected override void OnModelCreating(ModelBuilder modelBuilder)
+       // {
 
             //modelBuilder.Entity<ParkedVehicle>()
             //   .HasData(
@@ -31,7 +31,7 @@ namespace MvcGarage2.Models
             //    new { Id = 8, RegistrationNumber = "AOO222", Brand = "Volvo", VehicleModel = "1200 KK", NumberOfWheels = 6, StartTime = DateTime.Parse("2019-01-10 13:10"), VehicleType = (VehicleType)2, Color = (VehicleColor)12 },
             //    new { Id = 9, RegistrationNumber = "AOO333", Brand = "Mercedes", VehicleModel = "1200 KK", NumberOfWheels = 4, StartTime = DateTime.Parse("2019-01-10 13:20"), VehicleType = (VehicleType)2, Color = (VehicleColor)15 }
             //    );
-       }
+     //  }
 
         public DbSet<MvcGarage2.Models.ParkedVehicle> ParkedVehicle { get; set; }
 

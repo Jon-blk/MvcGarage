@@ -10,9 +10,11 @@ namespace MvcGarage2.Models
     {
         public int Id { get; set; }
         [Display(Name = "Namn")]
+        [Required(ErrorMessage = "Du måste ange namn!")]
         public string Name { get; set; }
 
         //nav collection
+        [Display(Name="Parkerade fordon")]
         public ICollection<ParkedVehicle> ParkedVehicles { get; set; }
     }
 }

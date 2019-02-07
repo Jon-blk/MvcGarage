@@ -158,6 +158,8 @@ namespace MvcGarage2.Controllers
             {
                 try
                 {
+                    parkedVehicle.RegistrationNumber = parkedVehicle.RegistrationNumber.ToUpper();
+                    parkedVehicle.StartTime = DateTime.Now < parkedVehicle.StartTime ? DateTime.Now : parkedVehicle.StartTime ; //don't allow setting future startdate
                     _context.Update(parkedVehicle);
                     await _context.SaveChangesAsync();
                 }

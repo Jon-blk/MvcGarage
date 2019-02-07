@@ -10,8 +10,8 @@ using MvcGarage2.Models;
 namespace MvcGarage2.Migrations
 {
     [DbContext(typeof(MvcGarage2Context))]
-    [Migration("20190205143532_member-db-bug")]
-    partial class memberdbbug
+    [Migration("20190205152529_INITIAL")]
+    partial class INITIAL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
