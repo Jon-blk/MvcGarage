@@ -12,7 +12,7 @@
     <h3>@DateTime.Now</h3>
     <strong>
         Betalt @{Write($"{Model.CurrentPrice:C2}");}
-  
+
 
 
     </strong>
@@ -50,7 +50,7 @@
             @Html.DisplayFor(model => model.CurrentPrice)
         </dd>
         <dt class="col-sm-4">
-        @Html.DisplayNameFor(model => model.ParkedMinutes)
+            @Html.DisplayNameFor(model => model.ParkedMinutes)
         </dt>
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.ParkedMinutes)
@@ -63,4 +63,10 @@
         </dd>
     </dl>
 </div>
+
+
+<p>
+    <input type="button" onclick="window.print()" value="Print" class="btn btn-primary btn-lg" />
+</p>
+
 <partial name="_BackToIndexPartial" />
