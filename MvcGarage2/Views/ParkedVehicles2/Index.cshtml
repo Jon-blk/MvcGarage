@@ -1,14 +1,16 @@
 ﻿@model MvcGarage2.Models.ParkedVehicleViewModel
 
 @{
-    ViewData["Title"] = "Start";
+    ViewData["Title"] = "Parkerade fordon";
 }
 
 <h1>@ViewData["Title"]</h1>
+<br />
 
 <p>
     <a asp-action="Create"><input value="Parkera nytt fordon" class="btn btn-primary btn-lg" /></a>
 </p>
+<br />
 
 <h5>Filtera parkerade fordon</h5>
 
@@ -16,7 +18,7 @@
         <div class="row">
             <div class="col-sm-4 form-group">
                 <select asp-for="VehicleType" asp-items="Model.VehicleTypes" class="form-control">
-                    <option value="">Alla fordonstyp</option>
+                    <option value="">Alla fordonstyper</option>
                 </select>
             </div>
             <div class="col-sm-4 form-group">
