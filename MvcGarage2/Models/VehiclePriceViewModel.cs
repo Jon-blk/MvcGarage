@@ -8,10 +8,13 @@ namespace MvcGarage2.Models
 {
     public class VehiclePriceViewModel
     {
-        public Member  Member { get; set; }
+        public Member Member { get; set; }
         public ParkedVehicle ParkedVehicle { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Display(Name = "Kostnad")]
         public float CurrentPrice { get; set; }
+        [Display(Name = "Parkerad tid(hh:mm:s)")]
+        public string ParkedMinutes { get; set; }
     }
 }

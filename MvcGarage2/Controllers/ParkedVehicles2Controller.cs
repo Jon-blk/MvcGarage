@@ -19,7 +19,7 @@ namespace MvcGarage2.Controllers
         }
 
         // GET: ParkedVehicles2
-        public async Task<IActionResult> Index(string VehicleType, string regNbr,string sortOrder)
+        public async Task<IActionResult> Index(string VehicleType, string regNbr)
         {
             ParkedVehicleViewModel parkedVehicleViewModel = new ParkedVehicleViewModel();
 
@@ -49,7 +49,7 @@ namespace MvcGarage2.Controllers
                                                select v.Type;
 
             parkedVehicleViewModel.VehicleTypes = new SelectList(vehicleTypes.Distinct());
-   
+
             return View(parkedVehicleViewModel);
         }
 
@@ -98,6 +98,9 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RegistrationNumber,Brand,VehicleModel,NumberOfWheels,StartTime,Color,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
         {
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
+
             if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
             {
                 //return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
@@ -113,8 +116,6 @@ namespace MvcGarage2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
-            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
             return View(parkedVehicle);
         }
 
@@ -211,12 +212,6 @@ namespace MvcGarage2.Controllers
                 TempData["Text"] = "Hittar inte fordonet - är det redan utcheckat?";
             }
 
-                return NotFound();
-            }
-            var parkedVehicleCost = new VehiclePriceViewModel();
-            parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, parkedVehicle.VehicleType.ParkingPrice);
-            parkedVehicleCost.Member = parkedVehicle.Member;
             return View(parkedVehicleCost);
         }
 
@@ -226,30 +221,24 @@ namespace MvcGarage2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var parkedVehicle = await _context.ParkedVehicle
-               .Include(p => p.VehicleType)
-               .Include(p => p.Member)
-               .FirstOrDefaultAsync(m => m.Id == id);
-            if (parkedVehicle == null)
-            {
-                return NotFound();
-            }
-           
+              .Include(p => p.VehicleType)
+              .Include(p => p.Member)
+              .FirstOrDefaultAsync(m => m.Id == id);
 
-            var parkedVehicledel = await _context.ParkedVehicle.FindAsync(id);
-            _context.ParkedVehicle.Remove(parkedVehicledel);
+            var parkedVehicleCost = new VehiclePriceViewModel();
+            var parkedVehicleDel = await _context.ParkedVehicle.FindAsync(id);
+            _context.ParkedVehicle.Remove(parkedVehicleDel);
             await _context.SaveChangesAsync();
 
-
-            //return RedirectToAction(nameof(Index));
-            var price = parkedVehicle.VehicleType.ParkingPrice;
-            var parkedVehicleCost = new VehiclePriceViewModel();
+          
             parkedVehicleCost.ParkedVehicle = parkedVehicle;
-            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime, price);
+            var price = parkedVehicle.VehicleType.ParkingPrice;
+            parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime,price);
             parkedVehicleCost.Member = parkedVehicle.Member;
-
-            return View("Receipt", parkedVehicleCost);
-
-
+            var timeSpan= DateTime.Now - parkedVehicle.StartTime;
+            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c");
+            return View("Receipt", parkedVehicleCost); 
+       
         }
 
         private bool ParkedVehicleExists(int id)
