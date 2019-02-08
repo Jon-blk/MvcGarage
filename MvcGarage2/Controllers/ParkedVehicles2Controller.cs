@@ -98,6 +98,9 @@ namespace MvcGarage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RegistrationNumber,Brand,VehicleModel,NumberOfWheels,StartTime,Color,MemberId,VehicleTypeId")] ParkedVehicle parkedVehicle)
         {
+            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
+            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
+
             if (_context.ParkedVehicle.Any(v => v.RegistrationNumber == parkedVehicle.RegistrationNumber.ToUpper()))
             {
                 //return View(parkedVehicle);//Registration number already exists, don't add, TODO: feedback
@@ -113,8 +116,6 @@ namespace MvcGarage2.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleTypeId"] = new SelectList(_context.Set<VehicleType>(), "Id", "Type", parkedVehicle.VehicleTypeId);
-            ViewData["MemberId"] = new SelectList(_context.Set<Member>(), "Id", "Name");
             return View(parkedVehicle);
         }
 

@@ -9,7 +9,7 @@ namespace MvcGarage2.Models
     public class Member
     {
         public int Id { get; set; }
-        [Display(Name = "Namn")]
+        [Display(Name = "Medlem")]
         [Required(ErrorMessage = "Du måste ange namn!")]
         public string Name { get; set; }
 
