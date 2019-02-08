@@ -227,6 +227,11 @@ namespace MvcGarage2.Controllers
 
             var parkedVehicleCost = new VehiclePriceViewModel();
             var parkedVehicleDel = await _context.ParkedVehicle.FindAsync(id);
+            if (parkedVehicleDel == null)
+            {
+                //in case of reloading the reciept page, redirect to index
+                return RedirectToAction(nameof(Index));
+            }
             _context.ParkedVehicle.Remove(parkedVehicleDel);
             await _context.SaveChangesAsync();
 
