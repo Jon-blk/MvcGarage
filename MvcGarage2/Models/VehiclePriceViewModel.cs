@@ -14,7 +14,7 @@ namespace MvcGarage2.Models
         [DisplayFormat(DataFormatString = "{0:C2}")]
         [Display(Name = "Kostnad")]
         public float CurrentPrice { get; set; }
-        [Display(Name = "Parkerad tid(hh:mm:s)")]
+        [Display(Name = "Parkerad tid(hh:mm)")]
         public string ParkedMinutes { get; set; }
     }
 }

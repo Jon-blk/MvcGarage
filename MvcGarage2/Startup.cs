@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using RazorPDFCore;
 
 namespace MvcGarage2
 {
@@ -33,6 +34,8 @@ namespace MvcGarage2
                 // We will put our translations in a folder called Resources
                 o.ResourcesPath = "Resources";
             });
+            services.AddSingleton<PdfResultExecutor>();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
