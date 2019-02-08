@@ -241,7 +241,7 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime,price);
             parkedVehicleCost.Member = parkedVehicle.Member;
             var timeSpan= DateTime.Now - parkedVehicle.StartTime;
-            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c");
+            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c").Remove(8);
             return View("Receipt", parkedVehicleCost); 
        
         }
