@@ -44,7 +44,7 @@ namespace MvcGarage2.Data
                 var vehicleTypes = new List<VehicleType>
                 {
                   new VehicleType("Bil",10f),
-                new VehicleType("Motorcyke",7f),
+                new VehicleType("Motorcykel",7f),
                      new VehicleType("Lastbil",15f),
                           new VehicleType("Cykel",2f)
 
