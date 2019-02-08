@@ -202,4 +202,18 @@
             data: clickInfo.concat($(this).serializeArray())
         });
     });
+    $(document).on("keyup", "form[data-ajax=true]", function (evt) {
+        var clickInfo = $(this).data(data_click) || [],
+            clickTarget = $(this).data(data_target),
+            isCancel = clickTarget && (clickTarget.hasClass("cancel") || clickTarget.attr('formnovalidate') !== undefined);
+        evt.preventDefault();
+        if (!isCancel && !validate(this)) {
+            return;
+        }
+        asyncRequest(this, {
+            url: this.action,
+            type: this.method || "GET",
+            data: clickInfo.concat($(this).serializeArray())
+        });
+    });
 }(jQuery));
