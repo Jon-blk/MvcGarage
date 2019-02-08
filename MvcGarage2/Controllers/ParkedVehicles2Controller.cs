@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcGarage2.Models;
+using RazorPDFCore;
 
 namespace MvcGarage2.Controllers
 {
-    public class ParkedVehicles2Controller : Controller
+    public class ParkedVehicles2Controller : RazorPDFCore.Controller
     {
         private readonly MvcGarage2Context _context;
 
@@ -245,7 +246,12 @@ namespace MvcGarage2.Controllers
             return View("Receipt", parkedVehicleCost); 
        
         }
+        public PdfResult PdfTake3(string id )
+        {
+            var person = new Member() { Id = 23456, Name=id };
 
+            return new PdfResult();
+        }
         private bool ParkedVehicleExists(int id)
         {
             return _context.ParkedVehicle.Any(e => e.Id == id);
