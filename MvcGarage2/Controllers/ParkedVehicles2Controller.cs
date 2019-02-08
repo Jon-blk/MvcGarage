@@ -242,9 +242,18 @@ namespace MvcGarage2.Controllers
             parkedVehicleCost.CurrentPrice = CalculateParkingCost(parkedVehicle.StartTime,price);
             parkedVehicleCost.Member = parkedVehicle.Member;
             var timeSpan= DateTime.Now - parkedVehicle.StartTime;
-            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c").Remove(8);
+            parkedVehicleCost.ParkedMinutes = timeSpan.ToString("c").Remove(5);
             return View("Receipt", parkedVehicleCost); 
        
+        }
+        public IActionResult Pdf()
+        {
+            var member = new Member();
+            member.Id = 23455;
+            member.Name = "Stefan";
+            member.ParkedVehicles = null;
+            var model = member;/* any model you wish */
+        return ViewPdf(model,"stefan.pdf",true);
         }
         public PdfResult PdfTake3(string id )
         {
