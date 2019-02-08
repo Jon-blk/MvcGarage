@@ -20,6 +20,7 @@ namespace MvcGarage2.Data
             {
                 if (context.Member.Any())
                 {
+                    return;
                     context.Member.RemoveRange(context.Member);
                     context.ParkedVehicle.RemoveRange(context.ParkedVehicle);
                     context.VehicleType.RemoveRange(context.VehicleType);
